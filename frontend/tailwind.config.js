@@ -1,8 +1,8 @@
 const colors = {
-    "primary": "#0082f0",
-    "secondary": "#b9defe",
-    "accent": "#d1436d",
-    "neutral": "#3D4451",
+    "primary": "#7cad3e",
+    "secondary": "#d3d6cd",
+    "accent": "#199EF3",
+    "neutral": "#173042",
     "base-100": "#fefeff",
     "info": "#3abff8",
     "success": "#36d399",
