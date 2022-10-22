@@ -6,6 +6,7 @@
         "ahmadalli.vscode-nginx-conf",
         "mechatroner.rainbow-csv",
         "bradlc.vscode-tailwindcss",
-        "BriteSnow.vscode-toggle-quotes"
+        "britesnow.vscode-toggle-quotes",
+        "vivaxy.vscode-conventional-commits"
     ]
 }
