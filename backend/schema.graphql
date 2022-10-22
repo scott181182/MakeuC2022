@@ -406,14 +406,12 @@ type MedicineAssignment {
   id: ID!
   user: User
   study: Study
-  frequency: BigInt
-  quantity: BigInt
+  frequency: String
+  quantity: Int
   direction: String
   startDate: DateTime
   endDate: DateTime
 }
-
-scalar BigInt
 
 input MedicineAssignmentWhereUniqueInput {
   id: ID
@@ -426,22 +424,22 @@ input MedicineAssignmentWhereInput {
   id: IDFilter
   user: UserWhereInput
   study: StudyWhereInput
-  frequency: BigIntFilter
-  quantity: BigIntFilter
+  frequency: StringFilter
+  quantity: IntFilter
   direction: StringFilter
   startDate: DateTimeFilter
   endDate: DateTimeFilter
 }
 
-input BigIntFilter {
-  equals: BigInt
-  in: [BigInt!]
-  notIn: [BigInt!]
-  lt: BigInt
-  lte: BigInt
-  gt: BigInt
-  gte: BigInt
-  not: BigIntFilter
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntFilter
 }
 
 input MedicineAssignmentOrderByInput {
@@ -456,8 +454,8 @@ input MedicineAssignmentOrderByInput {
 input MedicineAssignmentUpdateInput {
   user: UserRelateToOneForUpdateInput
   study: StudyRelateToOneForUpdateInput
-  frequency: BigInt
-  quantity: BigInt
+  frequency: String
+  quantity: Int
   direction: String
   startDate: DateTime
   endDate: DateTime
@@ -471,8 +469,8 @@ input MedicineAssignmentUpdateArgs {
 input MedicineAssignmentCreateInput {
   user: UserRelateToOneForCreateInput
   study: StudyRelateToOneForCreateInput
-  frequency: BigInt
-  quantity: BigInt
+  frequency: String
+  quantity: Int
   direction: String
   startDate: DateTime
   endDate: DateTime

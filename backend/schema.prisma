@@ -56,8 +56,8 @@ model MedicineAssignment {
   userId    String?  @map("user")
   study     Study?   @relation("MedicineAssignment_study", fields: [studyId], references: [id])
   studyId   String?  @unique @map("study")
-  frequency BigInt
-  quantity  BigInt
+  frequency String   @default("")
+  quantity  Int
   direction String   @default("")
   startDate DateTime
   endDate   DateTime

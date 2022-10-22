@@ -11,9 +11,7 @@ import { allowAll } from "@keystone-6/core/access";
 // see https://keystonejs.com/docs/fields/overview for the full list of fields
 //   this is a few common fields for an example
 import {
-    bigInt,
-    password,
-    relationship,
+    integer, password, relationship,
     select,
     text,
     timestamp
@@ -125,8 +123,8 @@ export const lists: Lists = {
         fields: {
             user: relationship({ ref: "User.medicineAssignments" }),
             study: relationship({ ref: "Study.medicineAssignment" }),
-            frequency: bigInt({ validation: { min: 0n, isRequired: true } }),
-            quantity: bigInt({ validation: { min: 0n, isRequired: true } }),
+            frequency: text({ validation: { isRequired: true } }),
+            quantity: integer({ validation: { min: 0, isRequired: true } }),
             direction: text({ validation: { isRequired: true } }),
             startDate: timestamp({ validation: { isRequired: true } }),
             endDate: timestamp({ validation: { isRequired: true } })
