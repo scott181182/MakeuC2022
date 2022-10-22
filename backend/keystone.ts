@@ -23,6 +23,9 @@ export default withAuth(
             provider: "sqlite",
             url: "file:./keystone.db"
         },
+        server: {
+            port: 3001
+        },
         lists,
         session
     })
