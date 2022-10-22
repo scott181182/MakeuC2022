@@ -1,5 +1,9 @@
+import { useMutation } from "@apollo/client";
 import { Formik, Form, Field } from "formik";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
+
+import { LoginWithPasswordDocument } from "../generated/graphql";
 
 
 
@@ -11,6 +15,11 @@ interface LoginFormData {
 
 
 const LoginPage: NextPage = () => {
+    const router = useRouter();
+    const [ submitLogin ] = useMutation(LoginWithPasswordDocument);
+    // TODO: add loading icon and error alert.
+    // const [submitLogin, { loading, error }] = useMutation(LoginWithPasswordDocument);
+
     const initialValues: LoginFormData = {
         email: "",
         password: ""
@@ -31,9 +40,10 @@ const LoginPage: NextPage = () => {
                     <h1 className="text-4xl py-4 text-center">Let&apos;s Get Started</h1>
                     <Formik
                         initialValues={initialValues}
-                        onSubmit={(values, actions) => {
-                            console.log({ values, actions });
-                            // TODO: use GraphQL login mutation
+                        onSubmit={(variables) => {
+                            return submitLogin({ variables }).then(() => {
+                                router.push("/");
+                            });
                         }}
                     >
                         <Form className="w-full my-8">
