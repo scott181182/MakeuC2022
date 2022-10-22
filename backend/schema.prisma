@@ -13,27 +13,76 @@ generator client {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  name      String    @default("")
-  email     String    @unique @default("")
-  password  String
-  posts     Post[]    @relation("Post_author")
-  createdAt DateTime? @default(now())
+  id                  String               @id @default(cuid())
+  name                String               @default("")
+  email               String               @unique @default("")
+  password            String
+  createdAt           DateTime?            @default(now())
+  role                String?
+  symptomReports      SymptomReport[]      @relation("SymptomReport_user")
+  medicineAssignments MedicineAssignment[] @relation("MedicineAssignment_user")
+  medicineCaptures    MedicineCapture[]    @relation("MedicineCapture_user")
+  participatedStudies Study[]              @relation("Study_participants")
+  coordinatedStudies  Study[]              @relation("Study_coordinators")
 }
 
-model Post {
-  id       String  @id @default(cuid())
-  title    String  @default("")
-  content  String  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  author   User?   @relation("Post_author", fields: [authorId], references: [id])
-  authorId String? @map("author")
-  tags     Tag[]   @relation("Post_tags")
-
-  @@index([authorId])
+model Symptom {
+  id   String @id @default(cuid())
+  name String @default("")
 }
 
-model Tag {
-  id    String @id @default(cuid())
-  name  String @default("")
-  posts Post[] @relation("Post_tags")
+model SymptomReport {
+  id      String   @id @default(cuid())
+  user    User?    @relation("SymptomReport_user", fields: [userId], references: [id])
+  userId  String?  @map("user")
+  time    DateTime
+  symptom String   @default("")
+  notes   String   @default("")
+
+  @@index([userId])
+}
+
+model Medicine {
+  id               String            @id @default(cuid())
+  name             String            @default("")
+  study            Study?            @relation("Medicine_study", fields: [studyId], references: [id])
+  studyId          String?           @unique @map("study")
+  medicineCaptures MedicineCapture[] @relation("MedicineCapture_medicine")
+}
+
+model MedicineAssignment {
+  id        String   @id @default(cuid())
+  user      User?    @relation("MedicineAssignment_user", fields: [userId], references: [id])
+  userId    String?  @map("user")
+  study     Study?   @relation("MedicineAssignment_study", fields: [studyId], references: [id])
+  studyId   String?  @unique @map("study")
+  frequency String   @default("")
+  quantity  Int
+  direction String   @default("")
+  startDate DateTime
+  endDate   DateTime
+
+  @@index([userId])
+}
+
+model MedicineCapture {
+  id         String    @id @default(cuid())
+  user       User?     @relation("MedicineCapture_user", fields: [userId], references: [id])
+  userId     String?   @map("user")
+  time       DateTime
+  medicine   Medicine? @relation("MedicineCapture_medicine", fields: [medicineId], references: [id])
+  medicineId String?   @map("medicine")
+
+  @@index([userId])
+  @@index([medicineId])
+}
+
+model Study {
+  id                 String              @id @default(cuid())
+  name               String              @default("")
+  description        String              @default("")
+  medicine           Medicine?           @relation("Medicine_study")
+  medicineAssignment MedicineAssignment? @relation("MedicineAssignment_study")
+  participants       User[]              @relation("Study_participants")
+  coordinators       User[]              @relation("Study_coordinators")
 }
