@@ -1,8 +1,13 @@
+import { NextPage } from "next";
 
-export default function Home() {
+
+
+const HomePage: NextPage = () => {
     return (
         <div className="container">
             <h1>Main Page</h1>
         </div>
     );
-}
+};
+
+export default HomePage;
