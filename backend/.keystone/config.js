@@ -29,7 +29,6 @@ var import_core2 = require("@keystone-6/core");
 var import_core = require("@keystone-6/core");
 var import_access = require("@keystone-6/core/access");
 var import_fields = require("@keystone-6/core/fields");
-var import_fields_document = require("@keystone-6/fields-document");
 var lists = {
   User: (0, import_core.list)({
     access: import_access.allowAll,
@@ -40,7 +39,6 @@ var lists = {
         isIndexed: "unique"
       }),
       password: (0, import_fields.password)({ validation: { isRequired: true } }),
-      posts: (0, import_fields.relationship)({ ref: "Post.author", many: true }),
       createdAt: (0, import_fields.timestamp)({
         defaultValue: { kind: "now" }
       }),
@@ -49,8 +47,7 @@ var lists = {
         options: [
           { label: "patient", value: "patient" },
           { label: "coordinator", value: "coordinator" },
-          { label: "admin", value: "admin" },
-          { label: "dev", value: "dev" }
+          { label: "admin", value: "admin" }
         ]
       }),
       symptomReports: (0, import_fields.relationship)({
@@ -75,57 +72,6 @@ var lists = {
       })
     }
   }),
-  Post: (0, import_core.list)({
-    access: import_access.allowAll,
-    fields: {
-      title: (0, import_fields.text)({ validation: { isRequired: true } }),
-      content: (0, import_fields_document.document)({
-        formatting: true,
-        layouts: [
-          [1, 1],
-          [1, 1, 1],
-          [2, 1],
-          [1, 2],
-          [1, 2, 1]
-        ],
-        links: true,
-        dividers: true
-      }),
-      author: (0, import_fields.relationship)({
-        ref: "User.posts",
-        ui: {
-          displayMode: "cards",
-          cardFields: ["name", "email"],
-          inlineEdit: { fields: ["name", "email"] },
-          linkToItem: true,
-          inlineConnect: true
-        },
-        many: false
-      }),
-      tags: (0, import_fields.relationship)({
-        ref: "Tag.posts",
-        many: true,
-        ui: {
-          displayMode: "cards",
-          cardFields: ["name"],
-          inlineEdit: { fields: ["name"] },
-          linkToItem: true,
-          inlineConnect: true,
-          inlineCreate: { fields: ["name"] }
-        }
-      })
-    }
-  }),
-  Tag: (0, import_core.list)({
-    access: import_access.allowAll,
-    ui: {
-      isHidden: true
-    },
-    fields: {
-      name: (0, import_fields.text)(),
-      posts: (0, import_fields.relationship)({ ref: "Post.tags", many: true })
-    }
-  }),
   Symptom: (0, import_core.list)({
     access: import_access.allowAll,
     fields: {
@@ -146,7 +92,10 @@ var lists = {
     fields: {
       name: (0, import_fields.text)({ validation: { isRequired: true } }),
       study: (0, import_fields.relationship)({ ref: "Study.medicine" }),
-      medicineCaptures: (0, import_fields.relationship)({ ref: "MedicineCapture.medicine", many: true })
+      medicineCaptures: (0, import_fields.relationship)({
+        ref: "MedicineCapture.medicine",
+        many: true
+      })
     }
   }),
   MedicineAssignment: (0, import_core.list)({
@@ -175,7 +124,9 @@ var lists = {
       name: (0, import_fields.text)({ validation: { isRequired: true } }),
       description: (0, import_fields.text)({ validation: { isRequired: true } }),
       medicine: (0, import_fields.relationship)({ ref: "Medicine.study" }),
-      medicineAssignment: (0, import_fields.relationship)({ ref: "MedicineAssignment.study" }),
+      medicineAssignment: (0, import_fields.relationship)({
+        ref: "MedicineAssignment.study"
+      }),
       participants: (0, import_fields.relationship)({
         ref: "User.participatedStudies",
         many: true
