@@ -9,6 +9,17 @@ type User {
   posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
   createdAt: DateTime
+  role: String
+  symptomReports(where: SymptomReportWhereInput! = {}, orderBy: [SymptomReportOrderByInput!]! = [], take: Int, skip: Int! = 0): [SymptomReport!]
+  symptomReportsCount(where: SymptomReportWhereInput! = {}): Int
+  medicineAssignments(where: MedicineAssignmentWhereInput! = {}, orderBy: [MedicineAssignmentOrderByInput!]! = [], take: Int, skip: Int! = 0): [MedicineAssignment!]
+  medicineAssignmentsCount(where: MedicineAssignmentWhereInput! = {}): Int
+  medicineCaptures(where: MedicineCaptureWhereInput! = {}, orderBy: [MedicineCaptureOrderByInput!]! = [], take: Int, skip: Int! = 0): [MedicineCapture!]
+  medicineCapturesCount(where: MedicineCaptureWhereInput! = {}): Int
+  participatedStudies(where: StudyWhereInput! = {}, orderBy: [StudyOrderByInput!]! = [], take: Int, skip: Int! = 0): [Study!]
+  participatedStudiesCount(where: StudyWhereInput! = {}): Int
+  coordinatedStudies(where: StudyWhereInput! = {}, orderBy: [StudyOrderByInput!]! = [], take: Int, skip: Int! = 0): [Study!]
+  coordinatedStudiesCount(where: StudyWhereInput! = {}): Int
 }
 
 type PasswordState {
@@ -31,6 +42,12 @@ input UserWhereInput {
   email: StringFilter
   posts: PostManyRelationFilter
   createdAt: DateTimeNullableFilter
+  role: StringNullableFilter
+  symptomReports: SymptomReportManyRelationFilter
+  medicineAssignments: MedicineAssignmentManyRelationFilter
+  medicineCaptures: MedicineCaptureManyRelationFilter
+  participatedStudies: StudyManyRelationFilter
+  coordinatedStudies: StudyManyRelationFilter
 }
 
 input IDFilter {
@@ -89,11 +106,64 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input SymptomReportManyRelationFilter {
+  every: SymptomReportWhereInput
+  some: SymptomReportWhereInput
+  none: SymptomReportWhereInput
+}
+
+input MedicineAssignmentManyRelationFilter {
+  every: MedicineAssignmentWhereInput
+  some: MedicineAssignmentWhereInput
+  none: MedicineAssignmentWhereInput
+}
+
+input MedicineCaptureManyRelationFilter {
+  every: MedicineCaptureWhereInput
+  some: MedicineCaptureWhereInput
+  none: MedicineCaptureWhereInput
+}
+
+input StudyManyRelationFilter {
+  every: StudyWhereInput
+  some: StudyWhereInput
+  none: StudyWhereInput
+}
+
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
   email: OrderDirection
   createdAt: OrderDirection
+  role: OrderDirection
 }
 
 enum OrderDirection {
@@ -107,6 +177,12 @@ input UserUpdateInput {
   password: String
   posts: PostRelateToManyForUpdateInput
   createdAt: DateTime
+  role: String
+  symptomReports: SymptomReportRelateToManyForUpdateInput
+  medicineAssignments: MedicineAssignmentRelateToManyForUpdateInput
+  medicineCaptures: MedicineCaptureRelateToManyForUpdateInput
+  participatedStudies: StudyRelateToManyForUpdateInput
+  coordinatedStudies: StudyRelateToManyForUpdateInput
 }
 
 input PostRelateToManyForUpdateInput {
@@ -114,6 +190,34 @@ input PostRelateToManyForUpdateInput {
   set: [PostWhereUniqueInput!]
   create: [PostCreateInput!]
   connect: [PostWhereUniqueInput!]
+}
+
+input SymptomReportRelateToManyForUpdateInput {
+  disconnect: [SymptomReportWhereUniqueInput!]
+  set: [SymptomReportWhereUniqueInput!]
+  create: [SymptomReportCreateInput!]
+  connect: [SymptomReportWhereUniqueInput!]
+}
+
+input MedicineAssignmentRelateToManyForUpdateInput {
+  disconnect: [MedicineAssignmentWhereUniqueInput!]
+  set: [MedicineAssignmentWhereUniqueInput!]
+  create: [MedicineAssignmentCreateInput!]
+  connect: [MedicineAssignmentWhereUniqueInput!]
+}
+
+input MedicineCaptureRelateToManyForUpdateInput {
+  disconnect: [MedicineCaptureWhereUniqueInput!]
+  set: [MedicineCaptureWhereUniqueInput!]
+  create: [MedicineCaptureCreateInput!]
+  connect: [MedicineCaptureWhereUniqueInput!]
+}
+
+input StudyRelateToManyForUpdateInput {
+  disconnect: [StudyWhereUniqueInput!]
+  set: [StudyWhereUniqueInput!]
+  create: [StudyCreateInput!]
+  connect: [StudyWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -127,11 +231,37 @@ input UserCreateInput {
   password: String
   posts: PostRelateToManyForCreateInput
   createdAt: DateTime
+  role: String
+  symptomReports: SymptomReportRelateToManyForCreateInput
+  medicineAssignments: MedicineAssignmentRelateToManyForCreateInput
+  medicineCaptures: MedicineCaptureRelateToManyForCreateInput
+  participatedStudies: StudyRelateToManyForCreateInput
+  coordinatedStudies: StudyRelateToManyForCreateInput
 }
 
 input PostRelateToManyForCreateInput {
   create: [PostCreateInput!]
   connect: [PostWhereUniqueInput!]
+}
+
+input SymptomReportRelateToManyForCreateInput {
+  create: [SymptomReportCreateInput!]
+  connect: [SymptomReportWhereUniqueInput!]
+}
+
+input MedicineAssignmentRelateToManyForCreateInput {
+  create: [MedicineAssignmentCreateInput!]
+  connect: [MedicineAssignmentWhereUniqueInput!]
+}
+
+input MedicineCaptureRelateToManyForCreateInput {
+  create: [MedicineCaptureCreateInput!]
+  connect: [MedicineCaptureWhereUniqueInput!]
+}
+
+input StudyRelateToManyForCreateInput {
+  create: [StudyCreateInput!]
+  connect: [StudyWhereUniqueInput!]
 }
 
 type Post {
@@ -254,6 +384,373 @@ input TagCreateInput {
   posts: PostRelateToManyForCreateInput
 }
 
+type Symptom {
+  id: ID!
+  name: String
+}
+
+input SymptomWhereUniqueInput {
+  id: ID
+}
+
+input SymptomWhereInput {
+  AND: [SymptomWhereInput!]
+  OR: [SymptomWhereInput!]
+  NOT: [SymptomWhereInput!]
+  id: IDFilter
+  name: StringFilter
+}
+
+input SymptomOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+}
+
+input SymptomUpdateInput {
+  name: String
+}
+
+input SymptomUpdateArgs {
+  where: SymptomWhereUniqueInput!
+  data: SymptomUpdateInput!
+}
+
+input SymptomCreateInput {
+  name: String
+}
+
+type SymptomReport {
+  id: ID!
+  user: User
+  time: DateTime
+  symptom: String
+  notes: String
+}
+
+input SymptomReportWhereUniqueInput {
+  id: ID
+}
+
+input SymptomReportWhereInput {
+  AND: [SymptomReportWhereInput!]
+  OR: [SymptomReportWhereInput!]
+  NOT: [SymptomReportWhereInput!]
+  id: IDFilter
+  user: UserWhereInput
+  time: DateTimeFilter
+  symptom: StringFilter
+  notes: StringFilter
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: DateTimeFilter
+}
+
+input SymptomReportOrderByInput {
+  id: OrderDirection
+  time: OrderDirection
+  symptom: OrderDirection
+  notes: OrderDirection
+}
+
+input SymptomReportUpdateInput {
+  user: UserRelateToOneForUpdateInput
+  time: DateTime
+  symptom: String
+  notes: String
+}
+
+input SymptomReportUpdateArgs {
+  where: SymptomReportWhereUniqueInput!
+  data: SymptomReportUpdateInput!
+}
+
+input SymptomReportCreateInput {
+  user: UserRelateToOneForCreateInput
+  time: DateTime
+  symptom: String
+  notes: String
+}
+
+type Medicine {
+  id: ID!
+  name: String
+  study: Study
+  medicineCaptures(where: MedicineCaptureWhereInput! = {}, orderBy: [MedicineCaptureOrderByInput!]! = [], take: Int, skip: Int! = 0): [MedicineCapture!]
+  medicineCapturesCount(where: MedicineCaptureWhereInput! = {}): Int
+}
+
+input MedicineWhereUniqueInput {
+  id: ID
+}
+
+input MedicineWhereInput {
+  AND: [MedicineWhereInput!]
+  OR: [MedicineWhereInput!]
+  NOT: [MedicineWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  study: StudyWhereInput
+  medicineCaptures: MedicineCaptureManyRelationFilter
+}
+
+input MedicineOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+}
+
+input MedicineUpdateInput {
+  name: String
+  study: StudyRelateToOneForUpdateInput
+  medicineCaptures: MedicineCaptureRelateToManyForUpdateInput
+}
+
+input StudyRelateToOneForUpdateInput {
+  create: StudyCreateInput
+  connect: StudyWhereUniqueInput
+  disconnect: Boolean
+}
+
+input MedicineUpdateArgs {
+  where: MedicineWhereUniqueInput!
+  data: MedicineUpdateInput!
+}
+
+input MedicineCreateInput {
+  name: String
+  study: StudyRelateToOneForCreateInput
+  medicineCaptures: MedicineCaptureRelateToManyForCreateInput
+}
+
+input StudyRelateToOneForCreateInput {
+  create: StudyCreateInput
+  connect: StudyWhereUniqueInput
+}
+
+type MedicineAssignment {
+  id: ID!
+  user: User
+  study: Study
+  frequency: BigInt
+  quantity: BigInt
+  direction: String
+  startDate: DateTime
+  endDate: DateTime
+}
+
+scalar BigInt
+
+input MedicineAssignmentWhereUniqueInput {
+  id: ID
+}
+
+input MedicineAssignmentWhereInput {
+  AND: [MedicineAssignmentWhereInput!]
+  OR: [MedicineAssignmentWhereInput!]
+  NOT: [MedicineAssignmentWhereInput!]
+  id: IDFilter
+  user: UserWhereInput
+  study: StudyWhereInput
+  frequency: BigIntFilter
+  quantity: BigIntFilter
+  direction: StringFilter
+  startDate: DateTimeFilter
+  endDate: DateTimeFilter
+}
+
+input BigIntFilter {
+  equals: BigInt
+  in: [BigInt!]
+  notIn: [BigInt!]
+  lt: BigInt
+  lte: BigInt
+  gt: BigInt
+  gte: BigInt
+  not: BigIntFilter
+}
+
+input MedicineAssignmentOrderByInput {
+  id: OrderDirection
+  frequency: OrderDirection
+  quantity: OrderDirection
+  direction: OrderDirection
+  startDate: OrderDirection
+  endDate: OrderDirection
+}
+
+input MedicineAssignmentUpdateInput {
+  user: UserRelateToOneForUpdateInput
+  study: StudyRelateToOneForUpdateInput
+  frequency: BigInt
+  quantity: BigInt
+  direction: String
+  startDate: DateTime
+  endDate: DateTime
+}
+
+input MedicineAssignmentUpdateArgs {
+  where: MedicineAssignmentWhereUniqueInput!
+  data: MedicineAssignmentUpdateInput!
+}
+
+input MedicineAssignmentCreateInput {
+  user: UserRelateToOneForCreateInput
+  study: StudyRelateToOneForCreateInput
+  frequency: BigInt
+  quantity: BigInt
+  direction: String
+  startDate: DateTime
+  endDate: DateTime
+}
+
+type MedicineCapture {
+  id: ID!
+  user: User
+  time: DateTime
+  medicine: Medicine
+}
+
+input MedicineCaptureWhereUniqueInput {
+  id: ID
+}
+
+input MedicineCaptureWhereInput {
+  AND: [MedicineCaptureWhereInput!]
+  OR: [MedicineCaptureWhereInput!]
+  NOT: [MedicineCaptureWhereInput!]
+  id: IDFilter
+  user: UserWhereInput
+  time: DateTimeFilter
+  medicine: MedicineWhereInput
+}
+
+input MedicineCaptureOrderByInput {
+  id: OrderDirection
+  time: OrderDirection
+}
+
+input MedicineCaptureUpdateInput {
+  user: UserRelateToOneForUpdateInput
+  time: DateTime
+  medicine: MedicineRelateToOneForUpdateInput
+}
+
+input MedicineRelateToOneForUpdateInput {
+  create: MedicineCreateInput
+  connect: MedicineWhereUniqueInput
+  disconnect: Boolean
+}
+
+input MedicineCaptureUpdateArgs {
+  where: MedicineCaptureWhereUniqueInput!
+  data: MedicineCaptureUpdateInput!
+}
+
+input MedicineCaptureCreateInput {
+  user: UserRelateToOneForCreateInput
+  time: DateTime
+  medicine: MedicineRelateToOneForCreateInput
+}
+
+input MedicineRelateToOneForCreateInput {
+  create: MedicineCreateInput
+  connect: MedicineWhereUniqueInput
+}
+
+type Study {
+  id: ID!
+  name: String
+  description: String
+  medicine: Medicine
+  medicineAssignment: MedicineAssignment
+  participants(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0): [User!]
+  participantsCount(where: UserWhereInput! = {}): Int
+  coordinators(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0): [User!]
+  coordinatorsCount(where: UserWhereInput! = {}): Int
+}
+
+input StudyWhereUniqueInput {
+  id: ID
+}
+
+input StudyWhereInput {
+  AND: [StudyWhereInput!]
+  OR: [StudyWhereInput!]
+  NOT: [StudyWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  description: StringFilter
+  medicine: MedicineWhereInput
+  medicineAssignment: MedicineAssignmentWhereInput
+  participants: UserManyRelationFilter
+  coordinators: UserManyRelationFilter
+}
+
+input UserManyRelationFilter {
+  every: UserWhereInput
+  some: UserWhereInput
+  none: UserWhereInput
+}
+
+input StudyOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  description: OrderDirection
+}
+
+input StudyUpdateInput {
+  name: String
+  description: String
+  medicine: MedicineRelateToOneForUpdateInput
+  medicineAssignment: MedicineAssignmentRelateToOneForUpdateInput
+  participants: UserRelateToManyForUpdateInput
+  coordinators: UserRelateToManyForUpdateInput
+}
+
+input MedicineAssignmentRelateToOneForUpdateInput {
+  create: MedicineAssignmentCreateInput
+  connect: MedicineAssignmentWhereUniqueInput
+  disconnect: Boolean
+}
+
+input UserRelateToManyForUpdateInput {
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input StudyUpdateArgs {
+  where: StudyWhereUniqueInput!
+  data: StudyUpdateInput!
+}
+
+input StudyCreateInput {
+  name: String
+  description: String
+  medicine: MedicineRelateToOneForCreateInput
+  medicineAssignment: MedicineAssignmentRelateToOneForCreateInput
+  participants: UserRelateToManyForCreateInput
+  coordinators: UserRelateToManyForCreateInput
+}
+
+input MedicineAssignmentRelateToOneForCreateInput {
+  create: MedicineAssignmentCreateInput
+  connect: MedicineAssignmentWhereUniqueInput
+}
+
+input UserRelateToManyForCreateInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -278,6 +775,42 @@ type Mutation {
   updateTags(data: [TagUpdateArgs!]!): [Tag]
   deleteTag(where: TagWhereUniqueInput!): Tag
   deleteTags(where: [TagWhereUniqueInput!]!): [Tag]
+  createSymptom(data: SymptomCreateInput!): Symptom
+  createSymptoms(data: [SymptomCreateInput!]!): [Symptom]
+  updateSymptom(where: SymptomWhereUniqueInput!, data: SymptomUpdateInput!): Symptom
+  updateSymptoms(data: [SymptomUpdateArgs!]!): [Symptom]
+  deleteSymptom(where: SymptomWhereUniqueInput!): Symptom
+  deleteSymptoms(where: [SymptomWhereUniqueInput!]!): [Symptom]
+  createSymptomReport(data: SymptomReportCreateInput!): SymptomReport
+  createSymptomReports(data: [SymptomReportCreateInput!]!): [SymptomReport]
+  updateSymptomReport(where: SymptomReportWhereUniqueInput!, data: SymptomReportUpdateInput!): SymptomReport
+  updateSymptomReports(data: [SymptomReportUpdateArgs!]!): [SymptomReport]
+  deleteSymptomReport(where: SymptomReportWhereUniqueInput!): SymptomReport
+  deleteSymptomReports(where: [SymptomReportWhereUniqueInput!]!): [SymptomReport]
+  createMedicine(data: MedicineCreateInput!): Medicine
+  createMedicines(data: [MedicineCreateInput!]!): [Medicine]
+  updateMedicine(where: MedicineWhereUniqueInput!, data: MedicineUpdateInput!): Medicine
+  updateMedicines(data: [MedicineUpdateArgs!]!): [Medicine]
+  deleteMedicine(where: MedicineWhereUniqueInput!): Medicine
+  deleteMedicines(where: [MedicineWhereUniqueInput!]!): [Medicine]
+  createMedicineAssignment(data: MedicineAssignmentCreateInput!): MedicineAssignment
+  createMedicineAssignments(data: [MedicineAssignmentCreateInput!]!): [MedicineAssignment]
+  updateMedicineAssignment(where: MedicineAssignmentWhereUniqueInput!, data: MedicineAssignmentUpdateInput!): MedicineAssignment
+  updateMedicineAssignments(data: [MedicineAssignmentUpdateArgs!]!): [MedicineAssignment]
+  deleteMedicineAssignment(where: MedicineAssignmentWhereUniqueInput!): MedicineAssignment
+  deleteMedicineAssignments(where: [MedicineAssignmentWhereUniqueInput!]!): [MedicineAssignment]
+  createMedicineCapture(data: MedicineCaptureCreateInput!): MedicineCapture
+  createMedicineCaptures(data: [MedicineCaptureCreateInput!]!): [MedicineCapture]
+  updateMedicineCapture(where: MedicineCaptureWhereUniqueInput!, data: MedicineCaptureUpdateInput!): MedicineCapture
+  updateMedicineCaptures(data: [MedicineCaptureUpdateArgs!]!): [MedicineCapture]
+  deleteMedicineCapture(where: MedicineCaptureWhereUniqueInput!): MedicineCapture
+  deleteMedicineCaptures(where: [MedicineCaptureWhereUniqueInput!]!): [MedicineCapture]
+  createStudy(data: StudyCreateInput!): Study
+  createStudies(data: [StudyCreateInput!]!): [Study]
+  updateStudy(where: StudyWhereUniqueInput!, data: StudyUpdateInput!): Study
+  updateStudies(data: [StudyUpdateArgs!]!): [Study]
+  deleteStudy(where: StudyWhereUniqueInput!): Study
+  deleteStudies(where: [StudyWhereUniqueInput!]!): [Study]
   endSession: Boolean!
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
@@ -310,6 +843,24 @@ type Query {
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0): [Tag!]
   tag(where: TagWhereUniqueInput!): Tag
   tagsCount(where: TagWhereInput! = {}): Int
+  symptoms(where: SymptomWhereInput! = {}, orderBy: [SymptomOrderByInput!]! = [], take: Int, skip: Int! = 0): [Symptom!]
+  symptom(where: SymptomWhereUniqueInput!): Symptom
+  symptomsCount(where: SymptomWhereInput! = {}): Int
+  symptomReports(where: SymptomReportWhereInput! = {}, orderBy: [SymptomReportOrderByInput!]! = [], take: Int, skip: Int! = 0): [SymptomReport!]
+  symptomReport(where: SymptomReportWhereUniqueInput!): SymptomReport
+  symptomReportsCount(where: SymptomReportWhereInput! = {}): Int
+  medicines(where: MedicineWhereInput! = {}, orderBy: [MedicineOrderByInput!]! = [], take: Int, skip: Int! = 0): [Medicine!]
+  medicine(where: MedicineWhereUniqueInput!): Medicine
+  medicinesCount(where: MedicineWhereInput! = {}): Int
+  medicineAssignments(where: MedicineAssignmentWhereInput! = {}, orderBy: [MedicineAssignmentOrderByInput!]! = [], take: Int, skip: Int! = 0): [MedicineAssignment!]
+  medicineAssignment(where: MedicineAssignmentWhereUniqueInput!): MedicineAssignment
+  medicineAssignmentsCount(where: MedicineAssignmentWhereInput! = {}): Int
+  medicineCaptures(where: MedicineCaptureWhereInput! = {}, orderBy: [MedicineCaptureOrderByInput!]! = [], take: Int, skip: Int! = 0): [MedicineCapture!]
+  medicineCapture(where: MedicineCaptureWhereUniqueInput!): MedicineCapture
+  medicineCapturesCount(where: MedicineCaptureWhereInput! = {}): Int
+  studies(where: StudyWhereInput! = {}, orderBy: [StudyOrderByInput!]! = [], take: Int, skip: Int! = 0): [Study!]
+  study(where: StudyWhereUniqueInput!): Study
+  studiesCount(where: StudyWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }

@@ -11,10 +11,8 @@ import { allowAll } from "@keystone-6/core/access";
 // see https://keystonejs.com/docs/fields/overview for the full list of fields
 //   this is a few common fields for an example
 import {
-    text,
-    relationship,
-    password,
-    timestamp
+    bigInt,
+    password, relationship, select, text, timestamp
 } from "@keystone-6/core/fields";
 
 // the document field is a more complicated field, so it has it's own package
@@ -55,7 +53,38 @@ export const lists: Lists = {
             createdAt: timestamp({
                 // this sets the timestamp to Date.now() when the user is first created
                 defaultValue: { kind: "now" }
+            }),
+
+            role: select({
+                type: "string",
+                options: [
+                    { label: "patient", value: "patient" },
+                    { label: "coordinator", value: "coordinator" },
+                    { label: "admin", value: "admin" },
+                    { label: "dev", value: "dev" }
+                ]
+            }),
+
+            symptomReports: relationship({
+                ref: "SymptomReport.user", many: true
+            }),
+
+            medicineAssignments: relationship({
+                ref: "MedicineAssignment.user", many: true
+            }),
+
+            medicineCaptures: relationship({
+                ref: "MedicineCapture.user", many: true
+            }),
+
+            participatedStudies: relationship({
+                ref: "Study.participants", many: true
+            }),
+
+            coordinatedStudies: relationship({
+                ref: "Study.coordinators", many: true
             })
+
         }
     }),
 
@@ -122,6 +151,7 @@ export const lists: Lists = {
                     inlineCreate: { fields: [ "name" ] }
                 }
             })
+
         }
     }),
 
@@ -144,5 +174,73 @@ export const lists: Lists = {
             // this can be helpful to find out all the Posts associated with a Tag
             posts: relationship({ ref: "Post.tags", many: true })
         }
+    }),
+
+    Symptom: list({
+        access: allowAll,
+        fields: {
+            name: text({ validation: { isRequired: true } })
+        }
+    }),
+
+    SymptomReport: list({
+        access: allowAll,
+        fields: {
+            user: relationship({ ref: "User.symptomReports" }),
+            time: timestamp({ validation: { isRequired: true } }),
+            symptom: text({ validation: { isRequired: true } }),
+            notes: text({ validation: { isRequired: true } })
+        }
+    }),
+
+    Medicine: list({
+        access: allowAll,
+        fields: {
+            name: text({ validation: { isRequired: true } }),
+            study: relationship({ ref: "Study.medicine" }),
+            medicineCaptures: relationship({ ref: "MedicineCapture.medicine", many: true })
+
+        }
+    }),
+
+    MedicineAssignment: list({
+        access: allowAll,
+        fields: {
+            user: relationship({ ref: "User.medicineAssignments" }),
+            study: relationship({ ref: "Study.medicineAssignment" }),
+            frequency: bigInt({ validation: { min: 0n, isRequired: true } }),
+            quantity: bigInt({ validation: { min: 0n, isRequired: true } }),
+            direction: text({ validation: { isRequired: true } }),
+            startDate: timestamp({ validation: { isRequired: true } }),
+            endDate: timestamp({ validation: { isRequired: true } })
+
+
+        }
+    }),
+
+    MedicineCapture: list({
+        access: allowAll,
+        fields: {
+            user: relationship({ ref: "User.medicineCaptures" }),
+            time: timestamp({ validation: { isRequired: true } }),
+            medicine: relationship({ ref: "Medicine.medicineCaptures" })
+        }
+    }),
+
+    Study: list({
+        access: allowAll,
+        fields: {
+            name: text({ validation: { isRequired: true } }),
+            description: text({ validation: { isRequired: true } }),
+            medicine: relationship({ ref: "Medicine.study" }),
+            medicineAssignment: relationship({ ref: "MedicineAssignment.study" }),
+            participants: relationship({
+                ref: "User.participatedStudies", many: true
+            }),
+            coordinators: relationship({
+                ref: "User.coordinatedStudies", many: true
+            })
+        }
     })
+
 };
