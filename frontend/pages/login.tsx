@@ -41,8 +41,13 @@ const LoginPage: NextPage = () => {
                     <Formik
                         initialValues={initialValues}
                         onSubmit={(variables) => {
-                            return submitLogin({ variables }).then(() => {
-                                router.push("/");
+                            return submitLogin({ variables }).then((res) => {
+                                if(res.data?.authenticateUserWithPassword?.__typename === "UserAuthenticationWithPasswordSuccess") {
+                                    router.push("/");
+                                } else if(res.data?.authenticateUserWithPassword?.__typename === "UserAuthenticationWithPasswordFailure") {
+                                    console.error(res.data.authenticateUserWithPassword.message);
+                                    // TODO: error alert
+                                }
                             });
                         }}
                     >

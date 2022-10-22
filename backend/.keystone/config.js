@@ -25,7 +25,7 @@ __export(keystone_exports, {
 module.exports = __toCommonJS(keystone_exports);
 var import_core2 = require("@keystone-6/core");
 
-// schema.ts
+// src/schema.ts
 var import_core = require("@keystone-6/core");
 var import_access = require("@keystone-6/core/access");
 var import_fields = require("@keystone-6/core/fields");
@@ -99,7 +99,7 @@ var lists = {
   })
 };
 
-// auth.ts
+// src/auth.ts
 var import_crypto = require("crypto");
 var import_auth = require("@keystone-6/auth");
 var import_session = require("@keystone-6/core/session");
@@ -128,6 +128,9 @@ var keystone_default = withAuth(
     db: {
       provider: "sqlite",
       url: "file:./keystone.db"
+    },
+    server: {
+      port: 3001
     },
     lists,
     session
