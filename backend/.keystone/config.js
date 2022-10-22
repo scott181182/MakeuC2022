@@ -103,9 +103,8 @@ var lists = {
     fields: {
       user: (0, import_fields.relationship)({ ref: "User.medicineAssignments" }),
       study: (0, import_fields.relationship)({ ref: "Study.medicineAssignment" }),
-      frequency: (0, import_fields.text)({ validation: { isRequired: true } }),
       quantity: (0, import_fields.integer)({ validation: { min: 0, isRequired: true } }),
-      direction: (0, import_fields.text)({ validation: { isRequired: true } }),
+      directions: (0, import_fields.text)({ validation: { isRequired: true } }),
       startDate: (0, import_fields.timestamp)({ validation: { isRequired: true } }),
       endDate: (0, import_fields.timestamp)({ validation: { isRequired: true } })
     }
