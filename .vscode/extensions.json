@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "editorconfig.editorconfig",
+        "dbaeumer.vscode-eslint",
+        "sleistner.vscode-fileutils",
+        "ahmadalli.vscode-nginx-conf",
+        "mechatroner.rainbow-csv",
+        "bradlc.vscode-tailwindcss",
+        "BriteSnow.vscode-toggle-quotes"
+    ]
+}
