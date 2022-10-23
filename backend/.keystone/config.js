@@ -85,7 +85,39 @@ var lists = {
     }
   }),
   SymptomReport: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: import_access.allowAll,
+      filter: {
+        query({ session: session2 }) {
+          if (session2.data?.role === "admin") {
+            return true;
+          }
+          if (session2.data?.role === "coordinator") {
+            return { user: { participatedStudies: { some: { coordinators: { some: { id: session2.data.id } } } } } };
+          } else if (session2.data?.role === "patient") {
+            return { user: { id: session2.data.id } };
+          }
+          return false;
+        },
+        update({ session: session2 }) {
+          if (session2.data?.role === "admin") {
+            return true;
+          }
+          if (session2.data?.role === "coordinator") {
+            return { user: { participatedStudies: { some: { coordinators: { some: { id: session2.data.id } } } } } };
+          } else if (session2.data?.role === "patient") {
+            return { user: { id: session2.data.id } };
+          }
+          return false;
+        },
+        delete({ session: session2 }) {
+          if (session2.data?.role === "admin") {
+            return true;
+          }
+          return false;
+        }
+      }
+    },
     fields: {
       user: (0, import_fields.relationship)({ ref: "User.symptomReports" }),
       time: (0, import_fields.timestamp)({ validation: { isRequired: true } }),
@@ -105,7 +137,40 @@ var lists = {
     }
   }),
   MedicineAssignment: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: import_access.allowAll,
+      filter: {
+        query({ session: session2 }) {
+          if (session2.data?.role === "admin") {
+            return true;
+          }
+          if (session2.data?.role === "coordinator") {
+            return { study: { coordinators: { some: { id: session2.data.id } } } };
+          } else if (session2.data?.role === "patient") {
+            return { user: { id: session2.data.id } };
+          }
+          return false;
+        },
+        update({ session: session2 }) {
+          if (session2.data?.role === "admin") {
+            return true;
+          }
+          if (session2.data?.role === "coordinator") {
+            return { study: { coordinators: { some: { id: session2.data.id } } } };
+          }
+          return false;
+        },
+        delete({ session: session2 }) {
+          if (session2.data?.role === "admin") {
+            return true;
+          }
+          if (session2.data?.role === "coordinator") {
+            return { study: { coordinators: { some: { id: session2.data.id } } } };
+          }
+          return false;
+        }
+      }
+    },
     fields: {
       user: (0, import_fields.relationship)({ ref: "User.medicineAssignments" }),
       study: (0, import_fields.relationship)({ ref: "Study.medicineAssignment" }),
@@ -124,7 +189,37 @@ var lists = {
     }
   }),
   Study: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: import_access.allowAll,
+      filter: {
+        query({ session: session2 }) {
+          if (session2.data?.role === "admin") {
+            return true;
+          }
+          if (session2.data?.role === "coordinator") {
+            return { coordinators: { some: { id: session2.data.id } } };
+          } else if (session2.data?.role === "patient") {
+            return { participants: { some: { id: session2.data.id } } };
+          }
+          return false;
+        },
+        update({ session: session2 }) {
+          if (session2.data?.role === "admin") {
+            return true;
+          }
+          if (session2.data?.role === "coordinator") {
+            return { coordinators: { some: { id: session2.data.id } } };
+          }
+          return false;
+        },
+        delete({ session: session2 }) {
+          if (session2.data?.role === "admin") {
+            return true;
+          }
+          return false;
+        }
+      }
+    },
     fields: {
       name: (0, import_fields.text)({ validation: { isRequired: true } }),
       description: (0, import_fields.text)({ validation: { isRequired: true } }),
@@ -155,7 +250,7 @@ if (!sessionSecret && true) {
 var { withAuth } = (0, import_auth.createAuth)({
   listKey: "User",
   identityField: "email",
-  sessionData: "name createdAt",
+  sessionData: "id name email role",
   secretField: "password",
   initFirstItem: false ? void 0 : {
     fields: ["name", "email", "password"]
