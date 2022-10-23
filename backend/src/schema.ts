@@ -135,7 +135,7 @@ export const lists: Lists = {
         access: allowAll,
         fields: {
             therapeuticAssignment: relationship({ ref: "TherapeuticAssignment.therapeuticAssignmentSteps" }),
-            index: integer({ validation: { isRequired: true } }),
+            index: integer({ validation: { isRequired: true, min: 0 } }),
             direction: text({ validation: { isRequired: true } })
         }
     }),
