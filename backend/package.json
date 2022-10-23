@@ -6,7 +6,7 @@
         "dev": "keystone dev",
         "start": "keystone start",
         "build": "keystone build",
-        "postinstall": "keystone postinstall",
+        "postinstall": "test -n \"$NOPOSTINSTALL\" || keystone postinstall",
         "lint": "eslint *.ts src/**/*.ts"
     },
     "// @aws-sdk": "temporary dependency until https://github.com/keystonejs/keystone/issues/8023 is resolved",
