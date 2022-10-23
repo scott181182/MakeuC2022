@@ -2,8 +2,10 @@ import { useMutation } from "@apollo/client";
 import { Formik, Form, Field } from "formik";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useContext } from "react";
 
 import { LoginWithPasswordDocument } from "../generated/graphql";
+import { AuthContext, AuthContextUser } from "../lib/AuthContext";
 
 
 
@@ -12,10 +14,17 @@ interface LoginFormData {
     password: string;
 }
 
+export function getStaticProps() {
+    return {
+        props: { navbar: false }
+    };
+}
+
 
 
 const LoginPage: NextPage = () => {
     const router = useRouter();
+    const auth = useContext(AuthContext);
     const [ submitLogin ] = useMutation(LoginWithPasswordDocument);
     // TODO: add loading icon and error alert.
     // const [submitLogin, { loading, error }] = useMutation(LoginWithPasswordDocument);
@@ -25,14 +34,17 @@ const LoginPage: NextPage = () => {
         password: ""
     };
 
+    // eslint-disable-next-line @next/next/no-img-element
+    const avatar = <img src="/ivy-leaf.png" className="p-8" alt="Ivy Icon"/>;
+
     return (
         <div className="w-full h-screen">
-            <div className="w-full h-1/3 lg:h-32 bg-primary flex items-center justify-center pb-[10vw]">
+            <div className="w-full h-1/3 lg:h-32 bg-primary flex items-center justify-center pb-[10vw] border-b-8 border-secondary">
                 <h1 className="text-base-100 text-6xl">Welcome</h1>
             </div>
             <div className="avatar placeholder translate-y-[-50%] translate-x-[-50%] absolute left-[50vw]">
-                <div className="bg-neutral text-base-100 rounded-full w-[30vw]">
-                    <span className="text-4xl">IVY</span>
+                <div className="bg-base-100 border-secondary border-8 rounded-full w-[30vw]">
+                    {avatar}
                 </div>
             </div>
             <div className="w-full container pt-[20vw] flex justify-center">
@@ -43,6 +55,8 @@ const LoginPage: NextPage = () => {
                         onSubmit={(variables) => {
                             return submitLogin({ variables }).then((res) => {
                                 if(res.data?.authenticateUserWithPassword?.__typename === "UserAuthenticationWithPasswordSuccess") {
+                                    auth.setUser(res.data.authenticateUserWithPassword.item as AuthContextUser);
+                                    console.log(auth.user);
                                     router.push("/");
                                 } else if(res.data?.authenticateUserWithPassword?.__typename === "UserAuthenticationWithPasswordFailure") {
                                     console.error(res.data.authenticateUserWithPassword.message);

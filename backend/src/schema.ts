@@ -98,7 +98,33 @@ export const lists: Lists = {
     }),
 
     SymptomReport: list({
-        access: allowAll,
+        access: {
+            operation: allowAll,
+            filter: {
+                query({ session }) {
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { user: { participatedStudies: { some: { coordinators: { some: { id: { equals: session.data.id } } } } } } };
+                    } else if(session?.data?.role === "patient") {
+                        return { user: { id: { equals: session.data.id } } };
+                    }
+                    return false;
+                },
+                update({ session }) {
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { user: { participatedStudies: { some: { coordinators: { some: { id: { equals: session.data.id } } } } } } };
+                    } else if(session?.data?.role === "patient") {
+                        return { user: { id: { equals: session.data.id } } };
+                    }
+                    return false;
+                },
+                delete({ session }) {
+                    if(session?.data?.role === "admin") { return true; }
+                    return false;
+                }
+            }
+        },
         fields: {
             user: relationship({ ref: "User.symptomReports" }),
             occurredOn: timestamp({ validation: { isRequired: true } }),
@@ -116,7 +142,34 @@ export const lists: Lists = {
     }),
 
     TherapeuticAssignment: list({
-        access: allowAll,
+        access: {
+            operation: allowAll,
+            filter: {
+                query({ session }) {
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { study: { coordinators: { some: { id: { equals: session.data.id } } } } };
+                    } else if(session?.data?.role === "patient") {
+                        return { user: { id: { equals: session.data.id } } };
+                    }
+                    return false;
+                },
+                update({ session }) {
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { study: { coordinators: { some: { id: { equals: session.data.id } } } } };
+                    }
+                    return false;
+                },
+                delete({ session }) {
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { study: { coordinators: { some: { id: { equals: session.data.id } } } } };
+                    }
+                    return false;
+                }
+            }
+        },
         fields: {
             user: relationship({ ref: "User.therapeuticAssignments" }),
             study: relationship({ ref: "Study.therapeuticAssignments" }),
@@ -147,7 +200,31 @@ export const lists: Lists = {
     }),
 
     Study: list({
-        access: allowAll,
+        access: {
+            operation: allowAll,
+            filter: {
+                query({ session }) {
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { coordinators: { some: { id: { equals: session.data.id } } } };
+                    } else if(session?.data?.role === "patient") {
+                        return { participants: { some: { id: { equals: session.data.id } } } };
+                    }
+                    return false;
+                },
+                update({ session }) {
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { coordinators: { some: { id: { equals: session.data.id } } } };
+                    }
+                    return false;
+                },
+                delete({ session }) {
+                    if(session?.data?.role === "admin") { return true; }
+                    return false;
+                }
+            }
+        },
         fields: {
             name: text({ validation: { isRequired: true } }),
             description: text({ validation: { isRequired: true } }),
