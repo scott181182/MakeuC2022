@@ -57,7 +57,17 @@ const DailyReportPage: NextPage = () => {
     );
 
     return (
-        <>
+        <div className="overflow-y-auto">
+            <div className="p-8 pb-0">
+                <div className="hero h-32 bg-secondary shadow-xl rounded-3xl">
+                    <div className="hero-content flex-row-reverse">
+                        <img src="/nurse.jpg" className="h-24 rounded-full shadow-2xl" alt=""/>
+                        <div>
+                            <p className="py-6">Let&apos;s check up with your interventions!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="card shadow-xl bg-base-100 m-8 flex-grow">
                 <div className="card-body">
                     {content}
@@ -67,7 +77,7 @@ const DailyReportPage: NextPage = () => {
                 <li className="step step-primary">Therapeutics</li>
                 <li className={step >= 1 ? "step step-primary" : "step"}>Symptoms</li>
             </ul>
-        </>
+        </div>
     );
 };
 export default DailyReportPage;
