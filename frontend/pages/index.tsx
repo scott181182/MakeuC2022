@@ -17,7 +17,7 @@ const HOME_PAGE_LINKS: HomePageLink[] = [
         bg: "btn-accent"
     }, {
         label: "My Progress",
-        route: "/profile"
+        route: "/progress"
     }, {
         label: "Symptom Report",
         route: "/symptom-report"
