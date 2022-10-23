@@ -1,0 +1,9 @@
+query GetDailyTherapeutics($userId: ID!, $today: DateTime!) {
+    medicineAssignments(where: {
+        user: { id: { equals: $userId } },
+        startDate: { gte: $today },
+        endDate: { lte: $today },
+    }) {
+        directions
+    }
+}
