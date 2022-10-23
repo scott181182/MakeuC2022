@@ -69,7 +69,13 @@ input StringFilter {
   contains: String
   startsWith: String
   endsWith: String
+  mode: QueryMode
   not: NestedStringFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
 }
 
 input NestedStringFilter {
@@ -108,6 +114,7 @@ input StringNullableFilter {
   contains: String
   startsWith: String
   endsWith: String
+  mode: QueryMode
   not: NestedStringNullableFilter
 }
 
@@ -406,9 +413,8 @@ type MedicineAssignment {
   id: ID!
   user: User
   study: Study
-  frequency: String
   quantity: Int
-  direction: String
+  directions: String
   startDate: DateTime
   endDate: DateTime
 }
@@ -424,9 +430,8 @@ input MedicineAssignmentWhereInput {
   id: IDFilter
   user: UserWhereInput
   study: StudyWhereInput
-  frequency: StringFilter
   quantity: IntFilter
-  direction: StringFilter
+  directions: StringFilter
   startDate: DateTimeFilter
   endDate: DateTimeFilter
 }
@@ -444,9 +449,8 @@ input IntFilter {
 
 input MedicineAssignmentOrderByInput {
   id: OrderDirection
-  frequency: OrderDirection
   quantity: OrderDirection
-  direction: OrderDirection
+  directions: OrderDirection
   startDate: OrderDirection
   endDate: OrderDirection
 }
@@ -454,9 +458,8 @@ input MedicineAssignmentOrderByInput {
 input MedicineAssignmentUpdateInput {
   user: UserRelateToOneForUpdateInput
   study: StudyRelateToOneForUpdateInput
-  frequency: String
   quantity: Int
-  direction: String
+  directions: String
   startDate: DateTime
   endDate: DateTime
 }
@@ -469,9 +472,8 @@ input MedicineAssignmentUpdateArgs {
 input MedicineAssignmentCreateInput {
   user: UserRelateToOneForCreateInput
   study: StudyRelateToOneForCreateInput
-  frequency: String
   quantity: Int
-  direction: String
+  directions: String
   startDate: DateTime
   endDate: DateTime
 }
@@ -785,11 +787,6 @@ enum KeystoneAdminUIFieldMetaItemViewFieldMode {
   edit
   read
   hidden
-}
-
-enum QueryMode {
-  default
-  insensitive
 }
 
 type KeystoneAdminUISort {
