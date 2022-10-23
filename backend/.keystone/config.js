@@ -60,12 +60,12 @@ var lists = {
         ref: "SymptomReport.user",
         many: true
       }),
-      medicineAssignments: (0, import_fields.relationship)({
-        ref: "MedicineAssignment.user",
+      therapeuticAssignments: (0, import_fields.relationship)({
+        ref: "TherapeuticAssignment.user",
         many: true
       }),
-      medicineCaptures: (0, import_fields.relationship)({
-        ref: "MedicineCapture.user",
+      therapeuticCaptures: (0, import_fields.relationship)({
+        ref: "TherapeuticCapture.user",
         many: true
       }),
       participatedStudies: (0, import_fields.relationship)({
@@ -88,39 +88,44 @@ var lists = {
     access: import_access.allowAll,
     fields: {
       user: (0, import_fields.relationship)({ ref: "User.symptomReports" }),
-      time: (0, import_fields.timestamp)({ validation: { isRequired: true } }),
+      occurredOn: (0, import_fields.timestamp)({ validation: { isRequired: true } }),
       symptom: (0, import_fields.text)({ validation: { isRequired: true } }),
       notes: (0, import_fields.text)({ validation: { isRequired: true } })
     }
   }),
-  Medicine: (0, import_core.list)({
+  Therapeutic: (0, import_core.list)({
     access: import_access.allowAll,
     fields: {
       name: (0, import_fields.text)({ validation: { isRequired: true } }),
-      study: (0, import_fields.relationship)({ ref: "Study.medicine" }),
-      medicineCaptures: (0, import_fields.relationship)({
-        ref: "MedicineCapture.medicine",
-        many: true
-      })
+      study: (0, import_fields.relationship)({ ref: "Study.therapeutics" })
     }
   }),
-  MedicineAssignment: (0, import_core.list)({
+  TherapeuticAssignment: (0, import_core.list)({
     access: import_access.allowAll,
     fields: {
-      user: (0, import_fields.relationship)({ ref: "User.medicineAssignments" }),
-      study: (0, import_fields.relationship)({ ref: "Study.medicineAssignment" }),
+      user: (0, import_fields.relationship)({ ref: "User.therapeuticAssignments" }),
+      study: (0, import_fields.relationship)({ ref: "Study.therapeuticAssignments" }),
       quantity: (0, import_fields.integer)({ validation: { min: 0, isRequired: true } }),
-      directions: (0, import_fields.text)({ validation: { isRequired: true } }),
+      therapeuticAssignmentSteps: (0, import_fields.relationship)({ ref: "TherapeuticAssignmentStep.therapeuticAssignment", many: true }),
       startDate: (0, import_fields.timestamp)({ validation: { isRequired: true } }),
       endDate: (0, import_fields.timestamp)({ validation: { isRequired: true } })
     }
   }),
-  MedicineCapture: (0, import_core.list)({
+  TherapeuticAssignmentStep: (0, import_core.list)({
     access: import_access.allowAll,
     fields: {
-      user: (0, import_fields.relationship)({ ref: "User.medicineCaptures" }),
-      time: (0, import_fields.timestamp)({ validation: { isRequired: true } }),
-      medicine: (0, import_fields.relationship)({ ref: "Medicine.medicineCaptures" })
+      therapeuticAssignment: (0, import_fields.relationship)({ ref: "TherapeuticAssignment.therapeuticAssignmentSteps" }),
+      index: (0, import_fields.integer)({ validation: { isRequired: true, min: 0 } }),
+      direction: (0, import_fields.text)({ validation: { isRequired: true } }),
+      therapeuticCapture: (0, import_fields.relationship)({ ref: "TherapeuticCapture.therapeuticAssignmentSteps" })
+    }
+  }),
+  TherapeuticCapture: (0, import_core.list)({
+    access: import_access.allowAll,
+    fields: {
+      user: (0, import_fields.relationship)({ ref: "User.therapeuticCaptures" }),
+      occurredOn: (0, import_fields.timestamp)({ validation: { isRequired: true } }),
+      therapeuticAssignmentSteps: (0, import_fields.relationship)({ ref: "TherapeuticAssignmentStep.therapeuticCapture", many: true })
     }
   }),
   Study: (0, import_core.list)({
@@ -128,9 +133,10 @@ var lists = {
     fields: {
       name: (0, import_fields.text)({ validation: { isRequired: true } }),
       description: (0, import_fields.text)({ validation: { isRequired: true } }),
-      medicine: (0, import_fields.relationship)({ ref: "Medicine.study" }),
-      medicineAssignment: (0, import_fields.relationship)({
-        ref: "MedicineAssignment.study"
+      therapeutics: (0, import_fields.relationship)({ ref: "Therapeutic.study", many: true }),
+      therapeuticAssignments: (0, import_fields.relationship)({
+        ref: "TherapeuticAssignment.study",
+        many: true
       }),
       participants: (0, import_fields.relationship)({
         ref: "User.participatedStudies",
@@ -139,7 +145,9 @@ var lists = {
       coordinators: (0, import_fields.relationship)({
         ref: "User.coordinatedStudies",
         many: true
-      })
+      }),
+      startDate: (0, import_fields.timestamp)({ validation: { isRequired: true } }),
+      endDate: (0, import_fields.timestamp)({ validation: { isRequired: true } })
     }
   })
 };

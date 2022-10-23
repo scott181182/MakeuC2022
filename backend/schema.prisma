@@ -13,17 +13,17 @@ generator client {
 }
 
 model User {
-  id                  String               @id @default(cuid())
-  name                String               @default("")
-  email               String               @unique @default("")
-  password            String
-  createdAt           DateTime?            @default(now())
-  role                String?
-  symptomReports      SymptomReport[]      @relation("SymptomReport_user")
-  medicineAssignments MedicineAssignment[] @relation("MedicineAssignment_user")
-  medicineCaptures    MedicineCapture[]    @relation("MedicineCapture_user")
-  participatedStudies Study[]              @relation("Study_participants")
-  coordinatedStudies  Study[]              @relation("Study_coordinators")
+  id                     String                  @id @default(cuid())
+  name                   String                  @default("")
+  email                  String                  @unique @default("")
+  password               String
+  createdAt              DateTime?               @default(now())
+  role                   String?
+  symptomReports         SymptomReport[]         @relation("SymptomReport_user")
+  therapeuticAssignments TherapeuticAssignment[] @relation("TherapeuticAssignment_user")
+  therapeuticCaptures    TherapeuticCapture[]    @relation("TherapeuticCapture_user")
+  participatedStudies    Study[]                 @relation("Study_participants")
+  coordinatedStudies     Study[]                 @relation("Study_coordinators")
 }
 
 model Symptom {
@@ -32,56 +32,71 @@ model Symptom {
 }
 
 model SymptomReport {
-  id      String   @id @default(cuid())
-  user    User?    @relation("SymptomReport_user", fields: [userId], references: [id])
-  userId  String?  @map("user")
-  time    DateTime
-  symptom String   @default("")
-  notes   String   @default("")
-
-  @@index([userId])
-}
-
-model Medicine {
-  id               String            @id @default(cuid())
-  name             String            @default("")
-  study            Study?            @relation("Medicine_study", fields: [studyId], references: [id])
-  studyId          String?           @unique @map("study")
-  medicineCaptures MedicineCapture[] @relation("MedicineCapture_medicine")
-}
-
-model MedicineAssignment {
   id         String   @id @default(cuid())
-  user       User?    @relation("MedicineAssignment_user", fields: [userId], references: [id])
+  user       User?    @relation("SymptomReport_user", fields: [userId], references: [id])
   userId     String?  @map("user")
-  study      Study?   @relation("MedicineAssignment_study", fields: [studyId], references: [id])
-  studyId    String?  @unique @map("study")
-  quantity   Int
-  directions String   @default("")
-  startDate  DateTime
-  endDate    DateTime
+  occurredOn DateTime
+  symptom    String   @default("")
+  notes      String   @default("")
 
   @@index([userId])
 }
 
-model MedicineCapture {
-  id         String    @id @default(cuid())
-  user       User?     @relation("MedicineCapture_user", fields: [userId], references: [id])
-  userId     String?   @map("user")
-  time       DateTime
-  medicine   Medicine? @relation("MedicineCapture_medicine", fields: [medicineId], references: [id])
-  medicineId String?   @map("medicine")
+model Therapeutic {
+  id      String  @id @default(cuid())
+  name    String  @default("")
+  study   Study?  @relation("Therapeutic_study", fields: [studyId], references: [id])
+  studyId String? @map("study")
+
+  @@index([studyId])
+}
+
+model TherapeuticAssignment {
+  id                         String                      @id @default(cuid())
+  user                       User?                       @relation("TherapeuticAssignment_user", fields: [userId], references: [id])
+  userId                     String?                     @map("user")
+  study                      Study?                      @relation("TherapeuticAssignment_study", fields: [studyId], references: [id])
+  studyId                    String?                     @map("study")
+  quantity                   Int
+  therapeuticAssignmentSteps TherapeuticAssignmentStep[] @relation("TherapeuticAssignmentStep_therapeuticAssignment")
+  startDate                  DateTime
+  endDate                    DateTime
 
   @@index([userId])
-  @@index([medicineId])
+  @@index([studyId])
+}
+
+model TherapeuticAssignmentStep {
+  id                      String                 @id @default(cuid())
+  therapeuticAssignment   TherapeuticAssignment? @relation("TherapeuticAssignmentStep_therapeuticAssignment", fields: [therapeuticAssignmentId], references: [id])
+  therapeuticAssignmentId String?                @map("therapeuticAssignment")
+  index                   Int
+  direction               String                 @default("")
+  therapeuticCapture      TherapeuticCapture?    @relation("TherapeuticAssignmentStep_therapeuticCapture", fields: [therapeuticCaptureId], references: [id])
+  therapeuticCaptureId    String?                @map("therapeuticCapture")
+
+  @@index([therapeuticAssignmentId])
+  @@index([therapeuticCaptureId])
+}
+
+model TherapeuticCapture {
+  id                         String                      @id @default(cuid())
+  user                       User?                       @relation("TherapeuticCapture_user", fields: [userId], references: [id])
+  userId                     String?                     @map("user")
+  occurredOn                 DateTime
+  therapeuticAssignmentSteps TherapeuticAssignmentStep[] @relation("TherapeuticAssignmentStep_therapeuticCapture")
+
+  @@index([userId])
 }
 
 model Study {
-  id                 String              @id @default(cuid())
-  name               String              @default("")
-  description        String              @default("")
-  medicine           Medicine?           @relation("Medicine_study")
-  medicineAssignment MedicineAssignment? @relation("MedicineAssignment_study")
-  participants       User[]              @relation("Study_participants")
-  coordinators       User[]              @relation("Study_coordinators")
+  id                     String                  @id @default(cuid())
+  name                   String                  @default("")
+  description            String                  @default("")
+  therapeutics           Therapeutic[]           @relation("Therapeutic_study")
+  therapeuticAssignments TherapeuticAssignment[] @relation("TherapeuticAssignment_study")
+  participants           User[]                  @relation("Study_participants")
+  coordinators           User[]                  @relation("Study_coordinators")
+  startDate              DateTime
+  endDate                DateTime
 }

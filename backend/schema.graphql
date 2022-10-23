@@ -10,10 +10,10 @@ type User {
   role: String
   symptomReports(where: SymptomReportWhereInput! = {}, orderBy: [SymptomReportOrderByInput!]! = [], take: Int, skip: Int! = 0): [SymptomReport!]
   symptomReportsCount(where: SymptomReportWhereInput! = {}): Int
-  medicineAssignments(where: MedicineAssignmentWhereInput! = {}, orderBy: [MedicineAssignmentOrderByInput!]! = [], take: Int, skip: Int! = 0): [MedicineAssignment!]
-  medicineAssignmentsCount(where: MedicineAssignmentWhereInput! = {}): Int
-  medicineCaptures(where: MedicineCaptureWhereInput! = {}, orderBy: [MedicineCaptureOrderByInput!]! = [], take: Int, skip: Int! = 0): [MedicineCapture!]
-  medicineCapturesCount(where: MedicineCaptureWhereInput! = {}): Int
+  therapeuticAssignments(where: TherapeuticAssignmentWhereInput! = {}, orderBy: [TherapeuticAssignmentOrderByInput!]! = [], take: Int, skip: Int! = 0): [TherapeuticAssignment!]
+  therapeuticAssignmentsCount(where: TherapeuticAssignmentWhereInput! = {}): Int
+  therapeuticCaptures(where: TherapeuticCaptureWhereInput! = {}, orderBy: [TherapeuticCaptureOrderByInput!]! = [], take: Int, skip: Int! = 0): [TherapeuticCapture!]
+  therapeuticCapturesCount(where: TherapeuticCaptureWhereInput! = {}): Int
   participatedStudies(where: StudyWhereInput! = {}, orderBy: [StudyOrderByInput!]! = [], take: Int, skip: Int! = 0): [Study!]
   participatedStudiesCount(where: StudyWhereInput! = {}): Int
   coordinatedStudies(where: StudyWhereInput! = {}, orderBy: [StudyOrderByInput!]! = [], take: Int, skip: Int! = 0): [Study!]
@@ -41,8 +41,8 @@ input UserWhereInput {
   createdAt: DateTimeNullableFilter
   role: StringNullableFilter
   symptomReports: SymptomReportManyRelationFilter
-  medicineAssignments: MedicineAssignmentManyRelationFilter
-  medicineCaptures: MedicineCaptureManyRelationFilter
+  therapeuticAssignments: TherapeuticAssignmentManyRelationFilter
+  therapeuticCaptures: TherapeuticCaptureManyRelationFilter
   participatedStudies: StudyManyRelationFilter
   coordinatedStudies: StudyManyRelationFilter
 }
@@ -138,16 +138,16 @@ input SymptomReportManyRelationFilter {
   none: SymptomReportWhereInput
 }
 
-input MedicineAssignmentManyRelationFilter {
-  every: MedicineAssignmentWhereInput
-  some: MedicineAssignmentWhereInput
-  none: MedicineAssignmentWhereInput
+input TherapeuticAssignmentManyRelationFilter {
+  every: TherapeuticAssignmentWhereInput
+  some: TherapeuticAssignmentWhereInput
+  none: TherapeuticAssignmentWhereInput
 }
 
-input MedicineCaptureManyRelationFilter {
-  every: MedicineCaptureWhereInput
-  some: MedicineCaptureWhereInput
-  none: MedicineCaptureWhereInput
+input TherapeuticCaptureManyRelationFilter {
+  every: TherapeuticCaptureWhereInput
+  some: TherapeuticCaptureWhereInput
+  none: TherapeuticCaptureWhereInput
 }
 
 input StudyManyRelationFilter {
@@ -176,8 +176,8 @@ input UserUpdateInput {
   createdAt: DateTime
   role: String
   symptomReports: SymptomReportRelateToManyForUpdateInput
-  medicineAssignments: MedicineAssignmentRelateToManyForUpdateInput
-  medicineCaptures: MedicineCaptureRelateToManyForUpdateInput
+  therapeuticAssignments: TherapeuticAssignmentRelateToManyForUpdateInput
+  therapeuticCaptures: TherapeuticCaptureRelateToManyForUpdateInput
   participatedStudies: StudyRelateToManyForUpdateInput
   coordinatedStudies: StudyRelateToManyForUpdateInput
 }
@@ -189,18 +189,18 @@ input SymptomReportRelateToManyForUpdateInput {
   connect: [SymptomReportWhereUniqueInput!]
 }
 
-input MedicineAssignmentRelateToManyForUpdateInput {
-  disconnect: [MedicineAssignmentWhereUniqueInput!]
-  set: [MedicineAssignmentWhereUniqueInput!]
-  create: [MedicineAssignmentCreateInput!]
-  connect: [MedicineAssignmentWhereUniqueInput!]
+input TherapeuticAssignmentRelateToManyForUpdateInput {
+  disconnect: [TherapeuticAssignmentWhereUniqueInput!]
+  set: [TherapeuticAssignmentWhereUniqueInput!]
+  create: [TherapeuticAssignmentCreateInput!]
+  connect: [TherapeuticAssignmentWhereUniqueInput!]
 }
 
-input MedicineCaptureRelateToManyForUpdateInput {
-  disconnect: [MedicineCaptureWhereUniqueInput!]
-  set: [MedicineCaptureWhereUniqueInput!]
-  create: [MedicineCaptureCreateInput!]
-  connect: [MedicineCaptureWhereUniqueInput!]
+input TherapeuticCaptureRelateToManyForUpdateInput {
+  disconnect: [TherapeuticCaptureWhereUniqueInput!]
+  set: [TherapeuticCaptureWhereUniqueInput!]
+  create: [TherapeuticCaptureCreateInput!]
+  connect: [TherapeuticCaptureWhereUniqueInput!]
 }
 
 input StudyRelateToManyForUpdateInput {
@@ -222,8 +222,8 @@ input UserCreateInput {
   createdAt: DateTime
   role: String
   symptomReports: SymptomReportRelateToManyForCreateInput
-  medicineAssignments: MedicineAssignmentRelateToManyForCreateInput
-  medicineCaptures: MedicineCaptureRelateToManyForCreateInput
+  therapeuticAssignments: TherapeuticAssignmentRelateToManyForCreateInput
+  therapeuticCaptures: TherapeuticCaptureRelateToManyForCreateInput
   participatedStudies: StudyRelateToManyForCreateInput
   coordinatedStudies: StudyRelateToManyForCreateInput
 }
@@ -233,14 +233,14 @@ input SymptomReportRelateToManyForCreateInput {
   connect: [SymptomReportWhereUniqueInput!]
 }
 
-input MedicineAssignmentRelateToManyForCreateInput {
-  create: [MedicineAssignmentCreateInput!]
-  connect: [MedicineAssignmentWhereUniqueInput!]
+input TherapeuticAssignmentRelateToManyForCreateInput {
+  create: [TherapeuticAssignmentCreateInput!]
+  connect: [TherapeuticAssignmentWhereUniqueInput!]
 }
 
-input MedicineCaptureRelateToManyForCreateInput {
-  create: [MedicineCaptureCreateInput!]
-  connect: [MedicineCaptureWhereUniqueInput!]
+input TherapeuticCaptureRelateToManyForCreateInput {
+  create: [TherapeuticCaptureCreateInput!]
+  connect: [TherapeuticCaptureWhereUniqueInput!]
 }
 
 input StudyRelateToManyForCreateInput {
@@ -286,7 +286,7 @@ input SymptomCreateInput {
 type SymptomReport {
   id: ID!
   user: User
-  time: DateTime
+  occurredOn: DateTime
   symptom: String
   notes: String
 }
@@ -301,7 +301,7 @@ input SymptomReportWhereInput {
   NOT: [SymptomReportWhereInput!]
   id: IDFilter
   user: UserWhereInput
-  time: DateTimeFilter
+  occurredOn: DateTimeFilter
   symptom: StringFilter
   notes: StringFilter
 }
@@ -319,14 +319,14 @@ input DateTimeFilter {
 
 input SymptomReportOrderByInput {
   id: OrderDirection
-  time: OrderDirection
+  occurredOn: OrderDirection
   symptom: OrderDirection
   notes: OrderDirection
 }
 
 input SymptomReportUpdateInput {
   user: UserRelateToOneForUpdateInput
-  time: DateTime
+  occurredOn: DateTime
   symptom: String
   notes: String
 }
@@ -344,7 +344,7 @@ input SymptomReportUpdateArgs {
 
 input SymptomReportCreateInput {
   user: UserRelateToOneForCreateInput
-  time: DateTime
+  occurredOn: DateTime
   symptom: String
   notes: String
 }
@@ -354,37 +354,33 @@ input UserRelateToOneForCreateInput {
   connect: UserWhereUniqueInput
 }
 
-type Medicine {
+type Therapeutic {
   id: ID!
   name: String
   study: Study
-  medicineCaptures(where: MedicineCaptureWhereInput! = {}, orderBy: [MedicineCaptureOrderByInput!]! = [], take: Int, skip: Int! = 0): [MedicineCapture!]
-  medicineCapturesCount(where: MedicineCaptureWhereInput! = {}): Int
 }
 
-input MedicineWhereUniqueInput {
+input TherapeuticWhereUniqueInput {
   id: ID
 }
 
-input MedicineWhereInput {
-  AND: [MedicineWhereInput!]
-  OR: [MedicineWhereInput!]
-  NOT: [MedicineWhereInput!]
+input TherapeuticWhereInput {
+  AND: [TherapeuticWhereInput!]
+  OR: [TherapeuticWhereInput!]
+  NOT: [TherapeuticWhereInput!]
   id: IDFilter
   name: StringFilter
   study: StudyWhereInput
-  medicineCaptures: MedicineCaptureManyRelationFilter
 }
 
-input MedicineOrderByInput {
+input TherapeuticOrderByInput {
   id: OrderDirection
   name: OrderDirection
 }
 
-input MedicineUpdateInput {
+input TherapeuticUpdateInput {
   name: String
   study: StudyRelateToOneForUpdateInput
-  medicineCaptures: MedicineCaptureRelateToManyForUpdateInput
 }
 
 input StudyRelateToOneForUpdateInput {
@@ -393,15 +389,14 @@ input StudyRelateToOneForUpdateInput {
   disconnect: Boolean
 }
 
-input MedicineUpdateArgs {
-  where: MedicineWhereUniqueInput!
-  data: MedicineUpdateInput!
+input TherapeuticUpdateArgs {
+  where: TherapeuticWhereUniqueInput!
+  data: TherapeuticUpdateInput!
 }
 
-input MedicineCreateInput {
+input TherapeuticCreateInput {
   name: String
   study: StudyRelateToOneForCreateInput
-  medicineCaptures: MedicineCaptureRelateToManyForCreateInput
 }
 
 input StudyRelateToOneForCreateInput {
@@ -409,29 +404,30 @@ input StudyRelateToOneForCreateInput {
   connect: StudyWhereUniqueInput
 }
 
-type MedicineAssignment {
+type TherapeuticAssignment {
   id: ID!
   user: User
   study: Study
   quantity: Int
-  directions: String
+  therapeuticAssignmentSteps(where: TherapeuticAssignmentStepWhereInput! = {}, orderBy: [TherapeuticAssignmentStepOrderByInput!]! = [], take: Int, skip: Int! = 0): [TherapeuticAssignmentStep!]
+  therapeuticAssignmentStepsCount(where: TherapeuticAssignmentStepWhereInput! = {}): Int
   startDate: DateTime
   endDate: DateTime
 }
 
-input MedicineAssignmentWhereUniqueInput {
+input TherapeuticAssignmentWhereUniqueInput {
   id: ID
 }
 
-input MedicineAssignmentWhereInput {
-  AND: [MedicineAssignmentWhereInput!]
-  OR: [MedicineAssignmentWhereInput!]
-  NOT: [MedicineAssignmentWhereInput!]
+input TherapeuticAssignmentWhereInput {
+  AND: [TherapeuticAssignmentWhereInput!]
+  OR: [TherapeuticAssignmentWhereInput!]
+  NOT: [TherapeuticAssignmentWhereInput!]
   id: IDFilter
   user: UserWhereInput
   study: StudyWhereInput
   quantity: IntFilter
-  directions: StringFilter
+  therapeuticAssignmentSteps: TherapeuticAssignmentStepManyRelationFilter
   startDate: DateTimeFilter
   endDate: DateTimeFilter
 }
@@ -447,101 +443,182 @@ input IntFilter {
   not: IntFilter
 }
 
-input MedicineAssignmentOrderByInput {
+input TherapeuticAssignmentStepManyRelationFilter {
+  every: TherapeuticAssignmentStepWhereInput
+  some: TherapeuticAssignmentStepWhereInput
+  none: TherapeuticAssignmentStepWhereInput
+}
+
+input TherapeuticAssignmentOrderByInput {
   id: OrderDirection
   quantity: OrderDirection
-  directions: OrderDirection
   startDate: OrderDirection
   endDate: OrderDirection
 }
 
-input MedicineAssignmentUpdateInput {
+input TherapeuticAssignmentUpdateInput {
   user: UserRelateToOneForUpdateInput
   study: StudyRelateToOneForUpdateInput
   quantity: Int
-  directions: String
+  therapeuticAssignmentSteps: TherapeuticAssignmentStepRelateToManyForUpdateInput
   startDate: DateTime
   endDate: DateTime
 }
 
-input MedicineAssignmentUpdateArgs {
-  where: MedicineAssignmentWhereUniqueInput!
-  data: MedicineAssignmentUpdateInput!
+input TherapeuticAssignmentStepRelateToManyForUpdateInput {
+  disconnect: [TherapeuticAssignmentStepWhereUniqueInput!]
+  set: [TherapeuticAssignmentStepWhereUniqueInput!]
+  create: [TherapeuticAssignmentStepCreateInput!]
+  connect: [TherapeuticAssignmentStepWhereUniqueInput!]
 }
 
-input MedicineAssignmentCreateInput {
+input TherapeuticAssignmentUpdateArgs {
+  where: TherapeuticAssignmentWhereUniqueInput!
+  data: TherapeuticAssignmentUpdateInput!
+}
+
+input TherapeuticAssignmentCreateInput {
   user: UserRelateToOneForCreateInput
   study: StudyRelateToOneForCreateInput
   quantity: Int
-  directions: String
+  therapeuticAssignmentSteps: TherapeuticAssignmentStepRelateToManyForCreateInput
   startDate: DateTime
   endDate: DateTime
 }
 
-type MedicineCapture {
-  id: ID!
-  user: User
-  time: DateTime
-  medicine: Medicine
+input TherapeuticAssignmentStepRelateToManyForCreateInput {
+  create: [TherapeuticAssignmentStepCreateInput!]
+  connect: [TherapeuticAssignmentStepWhereUniqueInput!]
 }
 
-input MedicineCaptureWhereUniqueInput {
+type TherapeuticAssignmentStep {
+  id: ID!
+  therapeuticAssignment: TherapeuticAssignment
+  index: Int
+  direction: String
+  therapeuticCapture: TherapeuticCapture
+}
+
+input TherapeuticAssignmentStepWhereUniqueInput {
   id: ID
 }
 
-input MedicineCaptureWhereInput {
-  AND: [MedicineCaptureWhereInput!]
-  OR: [MedicineCaptureWhereInput!]
-  NOT: [MedicineCaptureWhereInput!]
+input TherapeuticAssignmentStepWhereInput {
+  AND: [TherapeuticAssignmentStepWhereInput!]
+  OR: [TherapeuticAssignmentStepWhereInput!]
+  NOT: [TherapeuticAssignmentStepWhereInput!]
   id: IDFilter
-  user: UserWhereInput
-  time: DateTimeFilter
-  medicine: MedicineWhereInput
+  therapeuticAssignment: TherapeuticAssignmentWhereInput
+  index: IntFilter
+  direction: StringFilter
+  therapeuticCapture: TherapeuticCaptureWhereInput
 }
 
-input MedicineCaptureOrderByInput {
+input TherapeuticAssignmentStepOrderByInput {
   id: OrderDirection
-  time: OrderDirection
+  index: OrderDirection
+  direction: OrderDirection
 }
 
-input MedicineCaptureUpdateInput {
-  user: UserRelateToOneForUpdateInput
-  time: DateTime
-  medicine: MedicineRelateToOneForUpdateInput
+input TherapeuticAssignmentStepUpdateInput {
+  therapeuticAssignment: TherapeuticAssignmentRelateToOneForUpdateInput
+  index: Int
+  direction: String
+  therapeuticCapture: TherapeuticCaptureRelateToOneForUpdateInput
 }
 
-input MedicineRelateToOneForUpdateInput {
-  create: MedicineCreateInput
-  connect: MedicineWhereUniqueInput
+input TherapeuticAssignmentRelateToOneForUpdateInput {
+  create: TherapeuticAssignmentCreateInput
+  connect: TherapeuticAssignmentWhereUniqueInput
   disconnect: Boolean
 }
 
-input MedicineCaptureUpdateArgs {
-  where: MedicineCaptureWhereUniqueInput!
-  data: MedicineCaptureUpdateInput!
+input TherapeuticCaptureRelateToOneForUpdateInput {
+  create: TherapeuticCaptureCreateInput
+  connect: TherapeuticCaptureWhereUniqueInput
+  disconnect: Boolean
 }
 
-input MedicineCaptureCreateInput {
+input TherapeuticAssignmentStepUpdateArgs {
+  where: TherapeuticAssignmentStepWhereUniqueInput!
+  data: TherapeuticAssignmentStepUpdateInput!
+}
+
+input TherapeuticAssignmentStepCreateInput {
+  therapeuticAssignment: TherapeuticAssignmentRelateToOneForCreateInput
+  index: Int
+  direction: String
+  therapeuticCapture: TherapeuticCaptureRelateToOneForCreateInput
+}
+
+input TherapeuticAssignmentRelateToOneForCreateInput {
+  create: TherapeuticAssignmentCreateInput
+  connect: TherapeuticAssignmentWhereUniqueInput
+}
+
+input TherapeuticCaptureRelateToOneForCreateInput {
+  create: TherapeuticCaptureCreateInput
+  connect: TherapeuticCaptureWhereUniqueInput
+}
+
+type TherapeuticCapture {
+  id: ID!
+  user: User
+  occurredOn: DateTime
+  therapeuticAssignmentSteps(where: TherapeuticAssignmentStepWhereInput! = {}, orderBy: [TherapeuticAssignmentStepOrderByInput!]! = [], take: Int, skip: Int! = 0): [TherapeuticAssignmentStep!]
+  therapeuticAssignmentStepsCount(where: TherapeuticAssignmentStepWhereInput! = {}): Int
+}
+
+input TherapeuticCaptureWhereUniqueInput {
+  id: ID
+}
+
+input TherapeuticCaptureWhereInput {
+  AND: [TherapeuticCaptureWhereInput!]
+  OR: [TherapeuticCaptureWhereInput!]
+  NOT: [TherapeuticCaptureWhereInput!]
+  id: IDFilter
+  user: UserWhereInput
+  occurredOn: DateTimeFilter
+  therapeuticAssignmentSteps: TherapeuticAssignmentStepManyRelationFilter
+}
+
+input TherapeuticCaptureOrderByInput {
+  id: OrderDirection
+  occurredOn: OrderDirection
+}
+
+input TherapeuticCaptureUpdateInput {
+  user: UserRelateToOneForUpdateInput
+  occurredOn: DateTime
+  therapeuticAssignmentSteps: TherapeuticAssignmentStepRelateToManyForUpdateInput
+}
+
+input TherapeuticCaptureUpdateArgs {
+  where: TherapeuticCaptureWhereUniqueInput!
+  data: TherapeuticCaptureUpdateInput!
+}
+
+input TherapeuticCaptureCreateInput {
   user: UserRelateToOneForCreateInput
-  time: DateTime
-  medicine: MedicineRelateToOneForCreateInput
-}
-
-input MedicineRelateToOneForCreateInput {
-  create: MedicineCreateInput
-  connect: MedicineWhereUniqueInput
+  occurredOn: DateTime
+  therapeuticAssignmentSteps: TherapeuticAssignmentStepRelateToManyForCreateInput
 }
 
 type Study {
   id: ID!
   name: String
   description: String
-  medicine: Medicine
-  medicineAssignment: MedicineAssignment
+  therapeutics(where: TherapeuticWhereInput! = {}, orderBy: [TherapeuticOrderByInput!]! = [], take: Int, skip: Int! = 0): [Therapeutic!]
+  therapeuticsCount(where: TherapeuticWhereInput! = {}): Int
+  therapeuticAssignments(where: TherapeuticAssignmentWhereInput! = {}, orderBy: [TherapeuticAssignmentOrderByInput!]! = [], take: Int, skip: Int! = 0): [TherapeuticAssignment!]
+  therapeuticAssignmentsCount(where: TherapeuticAssignmentWhereInput! = {}): Int
   participants(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0): [User!]
   participantsCount(where: UserWhereInput! = {}): Int
   coordinators(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0): [User!]
   coordinatorsCount(where: UserWhereInput! = {}): Int
+  startDate: DateTime
+  endDate: DateTime
 }
 
 input StudyWhereUniqueInput {
@@ -555,10 +632,18 @@ input StudyWhereInput {
   id: IDFilter
   name: StringFilter
   description: StringFilter
-  medicine: MedicineWhereInput
-  medicineAssignment: MedicineAssignmentWhereInput
+  therapeutics: TherapeuticManyRelationFilter
+  therapeuticAssignments: TherapeuticAssignmentManyRelationFilter
   participants: UserManyRelationFilter
   coordinators: UserManyRelationFilter
+  startDate: DateTimeFilter
+  endDate: DateTimeFilter
+}
+
+input TherapeuticManyRelationFilter {
+  every: TherapeuticWhereInput
+  some: TherapeuticWhereInput
+  none: TherapeuticWhereInput
 }
 
 input UserManyRelationFilter {
@@ -571,21 +656,26 @@ input StudyOrderByInput {
   id: OrderDirection
   name: OrderDirection
   description: OrderDirection
+  startDate: OrderDirection
+  endDate: OrderDirection
 }
 
 input StudyUpdateInput {
   name: String
   description: String
-  medicine: MedicineRelateToOneForUpdateInput
-  medicineAssignment: MedicineAssignmentRelateToOneForUpdateInput
+  therapeutics: TherapeuticRelateToManyForUpdateInput
+  therapeuticAssignments: TherapeuticAssignmentRelateToManyForUpdateInput
   participants: UserRelateToManyForUpdateInput
   coordinators: UserRelateToManyForUpdateInput
+  startDate: DateTime
+  endDate: DateTime
 }
 
-input MedicineAssignmentRelateToOneForUpdateInput {
-  create: MedicineAssignmentCreateInput
-  connect: MedicineAssignmentWhereUniqueInput
-  disconnect: Boolean
+input TherapeuticRelateToManyForUpdateInput {
+  disconnect: [TherapeuticWhereUniqueInput!]
+  set: [TherapeuticWhereUniqueInput!]
+  create: [TherapeuticCreateInput!]
+  connect: [TherapeuticWhereUniqueInput!]
 }
 
 input UserRelateToManyForUpdateInput {
@@ -603,15 +693,17 @@ input StudyUpdateArgs {
 input StudyCreateInput {
   name: String
   description: String
-  medicine: MedicineRelateToOneForCreateInput
-  medicineAssignment: MedicineAssignmentRelateToOneForCreateInput
+  therapeutics: TherapeuticRelateToManyForCreateInput
+  therapeuticAssignments: TherapeuticAssignmentRelateToManyForCreateInput
   participants: UserRelateToManyForCreateInput
   coordinators: UserRelateToManyForCreateInput
+  startDate: DateTime
+  endDate: DateTime
 }
 
-input MedicineAssignmentRelateToOneForCreateInput {
-  create: MedicineAssignmentCreateInput
-  connect: MedicineAssignmentWhereUniqueInput
+input TherapeuticRelateToManyForCreateInput {
+  create: [TherapeuticCreateInput!]
+  connect: [TherapeuticWhereUniqueInput!]
 }
 
 input UserRelateToManyForCreateInput {
@@ -643,24 +735,30 @@ type Mutation {
   updateSymptomReports(data: [SymptomReportUpdateArgs!]!): [SymptomReport]
   deleteSymptomReport(where: SymptomReportWhereUniqueInput!): SymptomReport
   deleteSymptomReports(where: [SymptomReportWhereUniqueInput!]!): [SymptomReport]
-  createMedicine(data: MedicineCreateInput!): Medicine
-  createMedicines(data: [MedicineCreateInput!]!): [Medicine]
-  updateMedicine(where: MedicineWhereUniqueInput!, data: MedicineUpdateInput!): Medicine
-  updateMedicines(data: [MedicineUpdateArgs!]!): [Medicine]
-  deleteMedicine(where: MedicineWhereUniqueInput!): Medicine
-  deleteMedicines(where: [MedicineWhereUniqueInput!]!): [Medicine]
-  createMedicineAssignment(data: MedicineAssignmentCreateInput!): MedicineAssignment
-  createMedicineAssignments(data: [MedicineAssignmentCreateInput!]!): [MedicineAssignment]
-  updateMedicineAssignment(where: MedicineAssignmentWhereUniqueInput!, data: MedicineAssignmentUpdateInput!): MedicineAssignment
-  updateMedicineAssignments(data: [MedicineAssignmentUpdateArgs!]!): [MedicineAssignment]
-  deleteMedicineAssignment(where: MedicineAssignmentWhereUniqueInput!): MedicineAssignment
-  deleteMedicineAssignments(where: [MedicineAssignmentWhereUniqueInput!]!): [MedicineAssignment]
-  createMedicineCapture(data: MedicineCaptureCreateInput!): MedicineCapture
-  createMedicineCaptures(data: [MedicineCaptureCreateInput!]!): [MedicineCapture]
-  updateMedicineCapture(where: MedicineCaptureWhereUniqueInput!, data: MedicineCaptureUpdateInput!): MedicineCapture
-  updateMedicineCaptures(data: [MedicineCaptureUpdateArgs!]!): [MedicineCapture]
-  deleteMedicineCapture(where: MedicineCaptureWhereUniqueInput!): MedicineCapture
-  deleteMedicineCaptures(where: [MedicineCaptureWhereUniqueInput!]!): [MedicineCapture]
+  createTherapeutic(data: TherapeuticCreateInput!): Therapeutic
+  createTherapeutics(data: [TherapeuticCreateInput!]!): [Therapeutic]
+  updateTherapeutic(where: TherapeuticWhereUniqueInput!, data: TherapeuticUpdateInput!): Therapeutic
+  updateTherapeutics(data: [TherapeuticUpdateArgs!]!): [Therapeutic]
+  deleteTherapeutic(where: TherapeuticWhereUniqueInput!): Therapeutic
+  deleteTherapeutics(where: [TherapeuticWhereUniqueInput!]!): [Therapeutic]
+  createTherapeuticAssignment(data: TherapeuticAssignmentCreateInput!): TherapeuticAssignment
+  createTherapeuticAssignments(data: [TherapeuticAssignmentCreateInput!]!): [TherapeuticAssignment]
+  updateTherapeuticAssignment(where: TherapeuticAssignmentWhereUniqueInput!, data: TherapeuticAssignmentUpdateInput!): TherapeuticAssignment
+  updateTherapeuticAssignments(data: [TherapeuticAssignmentUpdateArgs!]!): [TherapeuticAssignment]
+  deleteTherapeuticAssignment(where: TherapeuticAssignmentWhereUniqueInput!): TherapeuticAssignment
+  deleteTherapeuticAssignments(where: [TherapeuticAssignmentWhereUniqueInput!]!): [TherapeuticAssignment]
+  createTherapeuticAssignmentStep(data: TherapeuticAssignmentStepCreateInput!): TherapeuticAssignmentStep
+  createTherapeuticAssignmentSteps(data: [TherapeuticAssignmentStepCreateInput!]!): [TherapeuticAssignmentStep]
+  updateTherapeuticAssignmentStep(where: TherapeuticAssignmentStepWhereUniqueInput!, data: TherapeuticAssignmentStepUpdateInput!): TherapeuticAssignmentStep
+  updateTherapeuticAssignmentSteps(data: [TherapeuticAssignmentStepUpdateArgs!]!): [TherapeuticAssignmentStep]
+  deleteTherapeuticAssignmentStep(where: TherapeuticAssignmentStepWhereUniqueInput!): TherapeuticAssignmentStep
+  deleteTherapeuticAssignmentSteps(where: [TherapeuticAssignmentStepWhereUniqueInput!]!): [TherapeuticAssignmentStep]
+  createTherapeuticCapture(data: TherapeuticCaptureCreateInput!): TherapeuticCapture
+  createTherapeuticCaptures(data: [TherapeuticCaptureCreateInput!]!): [TherapeuticCapture]
+  updateTherapeuticCapture(where: TherapeuticCaptureWhereUniqueInput!, data: TherapeuticCaptureUpdateInput!): TherapeuticCapture
+  updateTherapeuticCaptures(data: [TherapeuticCaptureUpdateArgs!]!): [TherapeuticCapture]
+  deleteTherapeuticCapture(where: TherapeuticCaptureWhereUniqueInput!): TherapeuticCapture
+  deleteTherapeuticCaptures(where: [TherapeuticCaptureWhereUniqueInput!]!): [TherapeuticCapture]
   createStudy(data: StudyCreateInput!): Study
   createStudies(data: [StudyCreateInput!]!): [Study]
   updateStudy(where: StudyWhereUniqueInput!, data: StudyUpdateInput!): Study
@@ -699,15 +797,18 @@ type Query {
   symptomReports(where: SymptomReportWhereInput! = {}, orderBy: [SymptomReportOrderByInput!]! = [], take: Int, skip: Int! = 0): [SymptomReport!]
   symptomReport(where: SymptomReportWhereUniqueInput!): SymptomReport
   symptomReportsCount(where: SymptomReportWhereInput! = {}): Int
-  medicines(where: MedicineWhereInput! = {}, orderBy: [MedicineOrderByInput!]! = [], take: Int, skip: Int! = 0): [Medicine!]
-  medicine(where: MedicineWhereUniqueInput!): Medicine
-  medicinesCount(where: MedicineWhereInput! = {}): Int
-  medicineAssignments(where: MedicineAssignmentWhereInput! = {}, orderBy: [MedicineAssignmentOrderByInput!]! = [], take: Int, skip: Int! = 0): [MedicineAssignment!]
-  medicineAssignment(where: MedicineAssignmentWhereUniqueInput!): MedicineAssignment
-  medicineAssignmentsCount(where: MedicineAssignmentWhereInput! = {}): Int
-  medicineCaptures(where: MedicineCaptureWhereInput! = {}, orderBy: [MedicineCaptureOrderByInput!]! = [], take: Int, skip: Int! = 0): [MedicineCapture!]
-  medicineCapture(where: MedicineCaptureWhereUniqueInput!): MedicineCapture
-  medicineCapturesCount(where: MedicineCaptureWhereInput! = {}): Int
+  therapeutics(where: TherapeuticWhereInput! = {}, orderBy: [TherapeuticOrderByInput!]! = [], take: Int, skip: Int! = 0): [Therapeutic!]
+  therapeutic(where: TherapeuticWhereUniqueInput!): Therapeutic
+  therapeuticsCount(where: TherapeuticWhereInput! = {}): Int
+  therapeuticAssignments(where: TherapeuticAssignmentWhereInput! = {}, orderBy: [TherapeuticAssignmentOrderByInput!]! = [], take: Int, skip: Int! = 0): [TherapeuticAssignment!]
+  therapeuticAssignment(where: TherapeuticAssignmentWhereUniqueInput!): TherapeuticAssignment
+  therapeuticAssignmentsCount(where: TherapeuticAssignmentWhereInput! = {}): Int
+  therapeuticAssignmentSteps(where: TherapeuticAssignmentStepWhereInput! = {}, orderBy: [TherapeuticAssignmentStepOrderByInput!]! = [], take: Int, skip: Int! = 0): [TherapeuticAssignmentStep!]
+  therapeuticAssignmentStep(where: TherapeuticAssignmentStepWhereUniqueInput!): TherapeuticAssignmentStep
+  therapeuticAssignmentStepsCount(where: TherapeuticAssignmentStepWhereInput! = {}): Int
+  therapeuticCaptures(where: TherapeuticCaptureWhereInput! = {}, orderBy: [TherapeuticCaptureOrderByInput!]! = [], take: Int, skip: Int! = 0): [TherapeuticCapture!]
+  therapeuticCapture(where: TherapeuticCaptureWhereUniqueInput!): TherapeuticCapture
+  therapeuticCapturesCount(where: TherapeuticCaptureWhereInput! = {}): Int
   studies(where: StudyWhereInput! = {}, orderBy: [StudyOrderByInput!]! = [], take: Int, skip: Int! = 0): [Study!]
   study(where: StudyWhereUniqueInput!): Study
   studiesCount(where: StudyWhereInput! = {}): Int

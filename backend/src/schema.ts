@@ -119,9 +119,9 @@ export const lists: Lists = {
         access: allowAll,
         fields: {
             user: relationship({ ref: "User.therapeuticAssignments" }),
-            study: relationship({ ref: "Study.therapeuticAssignment" }),
+            study: relationship({ ref: "Study.therapeuticAssignments" }),
             quantity: integer({ validation: { min: 0, isRequired: true } }),
-            therapeuticAssignmentSteps: relationship({ ref: "TherapeuticAssignmentSteps.therapeuticAssignment", many: true }),
+            therapeuticAssignmentSteps: relationship({ ref: "TherapeuticAssignmentStep.therapeuticAssignment", many: true }),
             startDate: timestamp({ validation: { isRequired: true } }),
             endDate: timestamp({ validation: { isRequired: true } })
         }
@@ -163,7 +163,9 @@ export const lists: Lists = {
             coordinators: relationship({
                 ref: "User.coordinatedStudies",
                 many: true
-            })
+            }),
+            startDate: timestamp({ validation: { isRequired: true } }),
+            endDate: timestamp({ validation: { isRequired: true } })
         }
     })
 };
