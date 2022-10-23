@@ -163,7 +163,9 @@ export const lists: Lists = {
             coordinators: relationship({
                 ref: "User.coordinatedStudies",
                 many: true
-            })
+            }),
+            startDate: timestamp({ validation: { isRequired: true } }),
+            endDate: timestamp({ validation: { isRequired: true } })
         }
     })
 };
