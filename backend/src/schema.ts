@@ -133,7 +133,7 @@ export const lists: Lists = {
             therapeuticAssignment: relationship({ ref: "TherapeuticAssignment.therapeuticAssignmentSteps" }),
             index: integer({ validation: { isRequired: true, min: 0 } }),
             direction: text({ validation: { isRequired: true } }),
-            therapeuticCapture: relationship({ ref: "TherapeuticCapture.therapeuticAssignmentStep" })
+            therapeuticCapture: relationship({ ref: "TherapeuticCapture.therapeuticAssignmentSteps" })
         }
     }),
 
@@ -142,7 +142,7 @@ export const lists: Lists = {
         fields: {
             user: relationship({ ref: "User.therapeuticCaptures" }),
             occurredOn: timestamp({ validation: { isRequired: true } }),
-            therapeuticAssignmentStep: relationship({ ref: "TherapeuticAssignmentStep.therapeuticCapture", many: true })
+            therapeuticAssignmentSteps: relationship({ ref: "TherapeuticAssignmentStep.therapeuticCapture", many: true })
         }
     }),
 
