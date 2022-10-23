@@ -97,6 +97,6 @@ model Study {
   therapeuticAssignments TherapeuticAssignment[] @relation("TherapeuticAssignment_study")
   participants           User[]                  @relation("Study_participants")
   coordinators           User[]                  @relation("Study_coordinators")
-  startDate              DateTime
-  endDate                DateTime
+  startDate              DateTime                @default(now())
+  endDate                DateTime                @default(now())
 }

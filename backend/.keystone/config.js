@@ -241,8 +241,8 @@ var lists = {
         ref: "User.coordinatedStudies",
         many: true
       }),
-      startDate: (0, import_fields.timestamp)({ validation: { isRequired: true } }),
-      endDate: (0, import_fields.timestamp)({ validation: { isRequired: true } })
+      startDate: (0, import_fields.timestamp)({ validation: { isRequired: true }, defaultValue: { kind: "now" } }),
+      endDate: (0, import_fields.timestamp)({ validation: { isRequired: true }, defaultValue: { kind: "now" } })
     }
   })
 };

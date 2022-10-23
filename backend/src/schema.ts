@@ -241,8 +241,8 @@ export const lists: Lists = {
                 ref: "User.coordinatedStudies",
                 many: true
             }),
-            startDate: timestamp({ validation: { isRequired: true } }),
-            endDate: timestamp({ validation: { isRequired: true } })
+            startDate: timestamp({ validation: { isRequired: true }, defaultValue: { kind: "now" } }),
+            endDate: timestamp({ validation: { isRequired: true }, defaultValue: { kind: "now" } })
         }
     })
 };
