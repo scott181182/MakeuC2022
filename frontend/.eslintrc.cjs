@@ -50,6 +50,7 @@ module.exports = {
         // }],
         "sort-import": [ "off" ],
 
+        "@next/next/no-img-element": [ "off" ],
         "react/jsx-equals-spacing": [ "error", "never" ],
         "react/jsx-tag-spacing": [
             "error", {

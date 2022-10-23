@@ -12,6 +12,12 @@ interface LoginFormData {
     password: string;
 }
 
+export function getStaticProps() {
+    return {
+        props: { navbar: false }
+    };
+}
+
 
 
 const LoginPage: NextPage = () => {
@@ -25,14 +31,17 @@ const LoginPage: NextPage = () => {
         password: ""
     };
 
+    // eslint-disable-next-line @next/next/no-img-element
+    const avatar = <img src="/ivy-leaf.png" className="p-8" alt="Ivy Icon"/>;
+
     return (
         <div className="w-full h-screen">
-            <div className="w-full h-1/3 lg:h-32 bg-primary flex items-center justify-center pb-[10vw]">
+            <div className="w-full h-1/3 lg:h-32 bg-primary flex items-center justify-center pb-[10vw] border-b-8 border-secondary">
                 <h1 className="text-base-100 text-6xl">Welcome</h1>
             </div>
             <div className="avatar placeholder translate-y-[-50%] translate-x-[-50%] absolute left-[50vw]">
-                <div className="bg-neutral text-base-100 rounded-full w-[30vw]">
-                    <span className="text-4xl">IVY</span>
+                <div className="bg-base-100 border-secondary border-8 rounded-full w-[30vw]">
+                    {avatar}
                 </div>
             </div>
             <div className="w-full container pt-[20vw] flex justify-center">
