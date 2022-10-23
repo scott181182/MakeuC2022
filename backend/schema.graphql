@@ -617,6 +617,8 @@ type Study {
   participantsCount(where: UserWhereInput! = {}): Int
   coordinators(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0): [User!]
   coordinatorsCount(where: UserWhereInput! = {}): Int
+  startDate: DateTime
+  endDate: DateTime
 }
 
 input StudyWhereUniqueInput {
@@ -634,6 +636,8 @@ input StudyWhereInput {
   therapeuticAssignments: TherapeuticAssignmentManyRelationFilter
   participants: UserManyRelationFilter
   coordinators: UserManyRelationFilter
+  startDate: DateTimeFilter
+  endDate: DateTimeFilter
 }
 
 input TherapeuticManyRelationFilter {
@@ -652,6 +656,8 @@ input StudyOrderByInput {
   id: OrderDirection
   name: OrderDirection
   description: OrderDirection
+  startDate: OrderDirection
+  endDate: OrderDirection
 }
 
 input StudyUpdateInput {
@@ -661,6 +667,8 @@ input StudyUpdateInput {
   therapeuticAssignments: TherapeuticAssignmentRelateToManyForUpdateInput
   participants: UserRelateToManyForUpdateInput
   coordinators: UserRelateToManyForUpdateInput
+  startDate: DateTime
+  endDate: DateTime
 }
 
 input TherapeuticRelateToManyForUpdateInput {
@@ -689,6 +697,8 @@ input StudyCreateInput {
   therapeuticAssignments: TherapeuticAssignmentRelateToManyForCreateInput
   participants: UserRelateToManyForCreateInput
   coordinators: UserRelateToManyForCreateInput
+  startDate: DateTime
+  endDate: DateTime
 }
 
 input TherapeuticRelateToManyForCreateInput {

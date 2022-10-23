@@ -145,7 +145,9 @@ var lists = {
       coordinators: (0, import_fields.relationship)({
         ref: "User.coordinatedStudies",
         many: true
-      })
+      }),
+      startDate: (0, import_fields.timestamp)({ validation: { isRequired: true } }),
+      endDate: (0, import_fields.timestamp)({ validation: { isRequired: true } })
     }
   })
 };
