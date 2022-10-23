@@ -18,14 +18,14 @@ function App({ Component, pageProps }: AppProps) {
         }
     };
     return (
-        <AuthProvider>
-            <ApolloProvider client={apolloClient}>
+        <ApolloProvider client={apolloClient}>
+            <AuthProvider>
                 <IconContext.Provider value={fontSettings}>
                     {(pageProps as any).navbar === false ? null : <TopAppBar/>}
                     <Component {...pageProps}/>
                 </IconContext.Provider>
-            </ApolloProvider>
-        </AuthProvider>
+            </AuthProvider>
+        </ApolloProvider>
     );
 }
 

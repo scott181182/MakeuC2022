@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useMemo, useState } from "react";
-import { MdMailOutline, MdSettings } from "react-icons/md";
+import { useContext, useMemo, useState } from "react";
+import { MdMailOutline, MdSettings, MdLogout } from "react-icons/md";
 import { AuthContext } from "../lib/AuthContext";
 
 
@@ -24,10 +24,6 @@ export function TopAppBar() {
     }, [ router.route ]);
     // console.log(crumbs);
 
-    useEffect(() => {
-        if(!auth.user && router.route !== "/login") { router.push("/login"); }
-    }, [ auth.user, router ]);
-
     // TODO: animate mail icon when mail is present
     const mailIcon = hasMail ?
         <div className="indicator">
@@ -49,8 +45,8 @@ export function TopAppBar() {
                     <button className="btn btn-lg btn-ghost btn-circle">
                         {mailIcon}
                     </button>
-                    <button className="btn btn-lg btn-ghost btn-circle mx-4">
-                        <MdSettings/>
+                    <button className="btn btn-lg btn-ghost btn-circle mx-4" onClick={() => auth.setUser()}>
+                        <MdLogout aria-label="Logout"/>
                     </button>
                 </div>
             </div>

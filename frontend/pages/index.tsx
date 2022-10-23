@@ -1,5 +1,8 @@
 import { NextPage } from "next";
 import Link from "next/link";
+import { useContext } from "react";
+import { StudyList } from "../components/StudyList";
+import { AuthContext } from "../lib/AuthContext";
 
 
 
@@ -37,6 +40,8 @@ const HOME_PAGE_LINKS: HomePageLink[] = [
 ];
 
 const HomePage: NextPage = () => {
+    const auth = useContext(AuthContext);
+
     const buttons = HOME_PAGE_LINKS.map((n) => (
         <div key={n.label} className={n.className || ""}>
             <Link href={n.route}>
@@ -47,9 +52,11 @@ const HomePage: NextPage = () => {
         </div>
     ));
     return (
-        <div className="grid p-8 gap-8 grid-cols-2 grid-rows-4 md:grid-cols-4 md:grid-rows-2 flex-grow">
-            {buttons}
-        </div>
+        auth.user?.role === "patient" ?
+            <div className="grid p-8 gap-8 grid-cols-2 grid-rows-4 md:grid-cols-4 md:grid-rows-2 flex-grow">
+                {buttons}
+            </div> :
+            <StudyList/>
     );
 };
 

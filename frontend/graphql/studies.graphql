@@ -1,0 +1,14 @@
+query GetStudies {
+    studies {
+        id
+        name
+        description
+        participantsCount
+        coordinators {
+            name
+        }
+        medicine {
+            name
+        }
+    }
+}

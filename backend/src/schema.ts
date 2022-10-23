@@ -102,25 +102,25 @@ export const lists: Lists = {
             operation: allowAll,
             filter: {
                 query({ session }) {
-                    if(session.data?.role === "admin") { return true; }
-                    if(session.data?.role === "coordinator") {
-                        return { user: { participatedStudies: { some: { coordinators: { some: { id: session.data.id } } } } } };
-                    } else if(session.data?.role === "patient") {
-                        return { user: { id: session.data.id } };
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { user: { participatedStudies: { some: { coordinators: { some: { id: { equals: session.data.id } } } } } } };
+                    } else if(session?.data?.role === "patient") {
+                        return { user: { id: { equals: session.data.id } } };
                     }
                     return false;
                 },
                 update({ session }) {
-                    if(session.data?.role === "admin") { return true; }
-                    if(session.data?.role === "coordinator") {
-                        return { user: { participatedStudies: { some: { coordinators: { some: { id: session.data.id } } } } } };
-                    } else if(session.data?.role === "patient") {
-                        return { user: { id: session.data.id } };
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { user: { participatedStudies: { some: { coordinators: { some: { id: { equals: session.data.id } } } } } } };
+                    } else if(session?.data?.role === "patient") {
+                        return { user: { id: { equals: session.data.id } } };
                     }
                     return false;
                 },
                 delete({ session }) {
-                    if(session.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "admin") { return true; }
                     return false;
                 }
             }
@@ -150,25 +150,25 @@ export const lists: Lists = {
             operation: allowAll,
             filter: {
                 query({ session }) {
-                    if(session.data?.role === "admin") { return true; }
-                    if(session.data?.role === "coordinator") {
-                        return { study: { coordinators: { some: { id: session.data.id } } } };
-                    } else if(session.data?.role === "patient") {
-                        return { user: { id: session.data.id } };
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { study: { coordinators: { some: { id: { equals: session.data.id } } } } };
+                    } else if(session?.data?.role === "patient") {
+                        return { user: { id: { equals: session.data.id } } };
                     }
                     return false;
                 },
                 update({ session }) {
-                    if(session.data?.role === "admin") { return true; }
-                    if(session.data?.role === "coordinator") {
-                        return { study: { coordinators: { some: { id: session.data.id } } } };
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { study: { coordinators: { some: { id: { equals: session.data.id } } } } };
                     }
                     return false;
                 },
                 delete({ session }) {
-                    if(session.data?.role === "admin") { return true; }
-                    if(session.data?.role === "coordinator") {
-                        return { study: { coordinators: { some: { id: session.data.id } } } };
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { study: { coordinators: { some: { id: { equals: session.data.id } } } } };
                     }
                     return false;
                 }
@@ -198,23 +198,23 @@ export const lists: Lists = {
             operation: allowAll,
             filter: {
                 query({ session }) {
-                    if(session.data?.role === "admin") { return true; }
-                    if(session.data?.role === "coordinator") {
-                        return { coordinators: { some: { id: session.data.id } } };
-                    } else if(session.data?.role === "patient") {
-                        return { participants: { some: { id: session.data.id } } };
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { coordinators: { some: { id: { equals: session.data.id } } } };
+                    } else if(session?.data?.role === "patient") {
+                        return { participants: { some: { id: { equals: session.data.id } } } };
                     }
                     return false;
                 },
                 update({ session }) {
-                    if(session.data?.role === "admin") { return true; }
-                    if(session.data?.role === "coordinator") {
-                        return { coordinators: { some: { id: session.data.id } } };
+                    if(session?.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "coordinator") {
+                        return { coordinators: { some: { id: { equals: session.data.id } } } };
                     }
                     return false;
                 },
                 delete({ session }) {
-                    if(session.data?.role === "admin") { return true; }
+                    if(session?.data?.role === "admin") { return true; }
                     return false;
                 }
             }

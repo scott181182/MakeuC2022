@@ -1,10 +1,16 @@
+import { useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import { useState } from "react";
+
+import { GetDailyTherapeuticsDocument } from "../generated/graphql";
 
 
 
 const DailyReportPage: NextPage = () => {
     const [ step, setStep ] = useState(0);
+    const { data: therapeutics } = useQuery(GetDailyTherapeuticsDocument, { variables: {
+        today: (new Date()).toISOString()
+    } });
 
     return (
         <>

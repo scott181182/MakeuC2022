@@ -15,6 +15,9 @@ html, body {
     display: flex;
     flex-direction: column;
 }
+.table.no-stick th:first-child {
+    position: static;
+}
 
 a {
   color: inherit;
