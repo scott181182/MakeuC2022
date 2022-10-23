@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { MdMailOutline, MdSettings } from "react-icons/md";
+import { AuthContext } from "../lib/AuthContext";
 
 
 
@@ -13,13 +14,19 @@ function labelizeRoute(route: string) {
 
 export function TopAppBar() {
     const router = useRouter();
+    const auth = useContext(AuthContext);
     const [ hasMail, setHasMail ] = useState(false);
 
     const crumbs = useMemo(() => {
         const routeParts = router.route === "/" ? [ "" ] : router.route.split("/");
-        return routeParts.map((p, i) => ({ label: labelizeRoute(p), route: "/" + routeParts.slice(0, i + 1).join("/") }));
+        // console.log(routeParts);
+        return routeParts.map((p, i) => ({ label: labelizeRoute(p), route: i === 0 ? "/" : routeParts.slice(0, i + 1).join("/") }));
     }, [ router.route ]);
-    console.log(crumbs);
+    // console.log(crumbs);
+
+    useEffect(() => {
+        if(!auth.user && router.route !== "/login") { router.push("/login"); }
+    }, [ auth.user, router ]);
 
     // TODO: animate mail icon when mail is present
     const mailIcon = hasMail ?

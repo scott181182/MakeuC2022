@@ -2,8 +2,10 @@ import { useMutation } from "@apollo/client";
 import { Formik, Form, Field } from "formik";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useContext } from "react";
 
 import { LoginWithPasswordDocument } from "../generated/graphql";
+import { AuthContext, AuthContextUser } from "../lib/AuthContext";
 
 
 
@@ -22,6 +24,7 @@ export function getStaticProps() {
 
 const LoginPage: NextPage = () => {
     const router = useRouter();
+    const auth = useContext(AuthContext);
     const [ submitLogin ] = useMutation(LoginWithPasswordDocument);
     // TODO: add loading icon and error alert.
     // const [submitLogin, { loading, error }] = useMutation(LoginWithPasswordDocument);
@@ -52,6 +55,8 @@ const LoginPage: NextPage = () => {
                         onSubmit={(variables) => {
                             return submitLogin({ variables }).then((res) => {
                                 if(res.data?.authenticateUserWithPassword?.__typename === "UserAuthenticationWithPasswordSuccess") {
+                                    auth.setUser(res.data.authenticateUserWithPassword.item as AuthContextUser);
+                                    console.log(auth.user);
                                     router.push("/");
                                 } else if(res.data?.authenticateUserWithPassword?.__typename === "UserAuthenticationWithPasswordFailure") {
                                     console.error(res.data.authenticateUserWithPassword.message);

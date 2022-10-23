@@ -5,7 +5,7 @@ import type { NextPage } from "next";
 const ContectRepPage: NextPage = () => {
     return (
         <div className="p-8 flex-grow">
-            <h1>Contect Representative Page</h1>
+            <h1>Contect Representative Form</h1>
         </div>
     );
 };
