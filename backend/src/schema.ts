@@ -69,12 +69,12 @@ export const lists: Lists = {
             }),
 
             therapeuticAssignments: relationship({
-                ref: "therapeuticAssignment.user",
+                ref: "TherapeuticAssignment.user",
                 many: true
             }),
 
             therapeuticCaptures: relationship({
-                ref: "therapeuticCapture.user",
+                ref: "TherapeuticCapture.user",
                 many: true
             }),
 
@@ -107,36 +107,45 @@ export const lists: Lists = {
         }
     }),
 
-    therapeutic: list({
+    Therapeutic: list({
         access: allowAll,
         fields: {
             name: text({ validation: { isRequired: true } }),
             study: relationship({ ref: "Study.therapeutic" }),
             therapeuticCaptures: relationship({
-                ref: "therapeuticCapture.therapeutic",
+                ref: "TherapeuticCapture.therapeutic",
                 many: true
             })
         }
     }),
 
-    therapeuticAssignment: list({
+    TherapeuticAssignment: list({
         access: allowAll,
         fields: {
             user: relationship({ ref: "User.therapeuticAssignments" }),
             study: relationship({ ref: "Study.therapeuticAssignment" }),
             quantity: integer({ validation: { min: 0, isRequired: true } }),
-            directions: text({ validation: { isRequired: true } }),
+            therapeuticAssignmentSteps: relationship({ ref: "TherapeuticAssignmentSteps.therapeuticAssignment", many: true }),
             startDate: timestamp({ validation: { isRequired: true } }),
             endDate: timestamp({ validation: { isRequired: true } })
         }
     }),
 
-    therapeuticCapture: list({
+    TherapeuticAssignmentStep: list({
+        access: allowAll,
+        fields: {
+            therapeuticAssignment: relationship({ ref: "TherapeuticAssignment.therapeuticAssignmentSteps" }),
+            index: integer({ validation: { isRequired: true } }),
+            direction: text({ validation: { isRequired: true } })
+        }
+    }),
+
+    TherapeuticCapture: list({
         access: allowAll,
         fields: {
             user: relationship({ ref: "User.therapeuticCaptures" }),
             time: timestamp({ validation: { isRequired: true } }),
-            therapeutic: relationship({ ref: "therapeutic.therapeuticCaptures" })
+            therapeutic: relationship({ ref: "Therapeutic.therapeuticCaptures" })
         }
     }),
 
@@ -145,9 +154,9 @@ export const lists: Lists = {
         fields: {
             name: text({ validation: { isRequired: true } }),
             description: text({ validation: { isRequired: true } }),
-            therapeutic: relationship({ ref: "therapeutic.study" }),
+            therapeutic: relationship({ ref: "Therapeutic.study" }),
             therapeuticAssignment: relationship({
-                ref: "therapeuticAssignment.study"
+                ref: "TherapeuticAssignment.study"
             }),
             participants: relationship({
                 ref: "User.participatedStudies",
