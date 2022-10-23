@@ -68,13 +68,13 @@ export const lists: Lists = {
                 many: true
             }),
 
-            medicineAssignments: relationship({
-                ref: "MedicineAssignment.user",
+            therapeuticAssignments: relationship({
+                ref: "therapeuticAssignment.user",
                 many: true
             }),
 
-            medicineCaptures: relationship({
-                ref: "MedicineCapture.user",
+            therapeuticCaptures: relationship({
+                ref: "therapeuticCapture.user",
                 many: true
             }),
 
@@ -107,23 +107,23 @@ export const lists: Lists = {
         }
     }),
 
-    Medicine: list({
+    therapeutic: list({
         access: allowAll,
         fields: {
             name: text({ validation: { isRequired: true } }),
-            study: relationship({ ref: "Study.medicine" }),
-            medicineCaptures: relationship({
-                ref: "MedicineCapture.medicine",
+            study: relationship({ ref: "Study.therapeutic" }),
+            therapeuticCaptures: relationship({
+                ref: "therapeuticCapture.therapeutic",
                 many: true
             })
         }
     }),
 
-    MedicineAssignment: list({
+    therapeuticAssignment: list({
         access: allowAll,
         fields: {
-            user: relationship({ ref: "User.medicineAssignments" }),
-            study: relationship({ ref: "Study.medicineAssignment" }),
+            user: relationship({ ref: "User.therapeuticAssignments" }),
+            study: relationship({ ref: "Study.therapeuticAssignment" }),
             quantity: integer({ validation: { min: 0, isRequired: true } }),
             directions: text({ validation: { isRequired: true } }),
             startDate: timestamp({ validation: { isRequired: true } }),
@@ -131,12 +131,12 @@ export const lists: Lists = {
         }
     }),
 
-    MedicineCapture: list({
+    therapeuticCapture: list({
         access: allowAll,
         fields: {
-            user: relationship({ ref: "User.medicineCaptures" }),
+            user: relationship({ ref: "User.therapeuticCaptures" }),
             time: timestamp({ validation: { isRequired: true } }),
-            medicine: relationship({ ref: "Medicine.medicineCaptures" })
+            therapeutic: relationship({ ref: "therapeutic.therapeuticCaptures" })
         }
     }),
 
@@ -145,9 +145,9 @@ export const lists: Lists = {
         fields: {
             name: text({ validation: { isRequired: true } }),
             description: text({ validation: { isRequired: true } }),
-            medicine: relationship({ ref: "Medicine.study" }),
-            medicineAssignment: relationship({
-                ref: "MedicineAssignment.study"
+            therapeutic: relationship({ ref: "therapeutic.study" }),
+            therapeuticAssignment: relationship({
+                ref: "therapeuticAssignment.study"
             }),
             participants: relationship({
                 ref: "User.participatedStudies",
