@@ -18,10 +18,12 @@ export function TopAppBar() {
     const [ hasMail, setHasMail ] = useState(false);
 
     const crumbs = useMemo(() => {
-        const routeParts = router.route === "/" ? [ "" ] : router.route.split("/");
+        const path = router.asPath.split("?")[0];
+        // console.log(path);
+        const routeParts = path === "/" ? [ "" ] : path.split("/");
         // console.log(routeParts);
         return routeParts.map((p, i) => ({ label: labelizeRoute(p), route: i === 0 ? "/" : routeParts.slice(0, i + 1).join("/") }));
-    }, [ router.route ]);
+    }, [ router.asPath ]);
     // console.log(crumbs);
 
     // TODO: animate mail icon when mail is present

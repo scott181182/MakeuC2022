@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import Link from "next/link";
 import { useMemo } from "react";
 
 import { GetStudiesDocument } from "../generated/graphql";
@@ -10,7 +11,13 @@ export function StudyList() {
 
     const studyRows = useMemo(() => studyData?.studies?.map((s) => (
         <tr key={s.id}>
-            <th>{s.name}</th>
+            <th>
+                <Link href={`/studies/${s.id}`}>
+                    <a>
+                        {s.name}
+                    </a>
+                </Link>
+            </th>
             <td>{s.description}</td>
             <td>{s.participantsCount}</td>
             <td>{s.medicine?.name}</td>

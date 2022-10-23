@@ -1,14 +1,36 @@
+fragment CompleteStudy on Study {
+    id
+    name
+    description
+    participantsCount
+    coordinators {
+        name
+    }
+    medicine {
+        name
+    }
+}
+
+query GetStudy($id: ID!) {
+    study(where: { id: $id }) {
+        ...CompleteStudy
+    }
+}
+query GetSymptomsForStudy($id: ID!, $start: DateTime!) {
+    study(where: { id: $id }) {
+        id
+        participants {
+            symptomReports(where: { time: { gte: $start } }) {
+                symptom
+                notes
+                time
+            }
+        }
+    }
+}
+
 query GetStudies {
     studies {
-        id
-        name
-        description
-        participantsCount
-        coordinators {
-            name
-        }
-        medicine {
-            name
-        }
+        ...CompleteStudy
     }
 }

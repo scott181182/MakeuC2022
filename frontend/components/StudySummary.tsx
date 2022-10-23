@@ -1,8 +1,4 @@
-import { useQuery } from "@apollo/client";
-import { useMemo } from "react";
-
-import { GetStudiesDocument, GetStudiesQuery } from "../generated/graphql";
-
+import Link from "next/link";
 
 
 export interface StudySummaryProps {
@@ -11,6 +7,7 @@ export interface StudySummaryProps {
         name?: string | null;
         description?: string | null;
         medicine?: { name?: string | null; } | null;
+        participantsCount?: number | null;
     }
 }
 
@@ -22,6 +19,14 @@ export function StudySummary({ study }: StudySummaryProps) {
                 <hr/>
                 <p>Therapeutic: {study.medicine?.name}</p>
                 <p>{study.description}</p>
+                <p>Participants: <span className="badge badge-secondary">{study.participantsCount}</span></p>
+                <div className="card-actions justify-end">
+                    <Link href={`/studies/${study.id}/symptoms?start_data=`}>
+                        <a className="btn btn-accent">
+                            Symptom Overview
+                        </a>
+                    </Link>
+                </div>
             </div>
         </div>
     );

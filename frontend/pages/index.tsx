@@ -38,25 +38,40 @@ const HOME_PAGE_LINKS: HomePageLink[] = [
         route: "/contact-rep"
     }
 ];
+const COORDINATOR_LINKS: HomePageLink[] = [
+    {
+        label: "Studies",
+        route: "/studies"
+    }
+];
 
 const HomePage: NextPage = () => {
     const auth = useContext(AuthContext);
 
-    const buttons = HOME_PAGE_LINKS.map((n) => (
-        <div key={n.label} className={n.className || ""}>
-            <Link href={n.route}>
-                <a className={"btn btn-block h-full text-2xl text-neutral " + (n.bg ??  "btn-primary")}>
-                    {n.label}
-                </a>
-            </Link>
+    return auth.user?.role === "patient" ? (
+        <div className="grid p-8 gap-8 grid-cols-2 grid-rows-4 md:grid-cols-4 md:grid-rows-2 flex-grow">
+            {HOME_PAGE_LINKS.map((n) => (
+                <div key={n.label} className={n.className || ""}>
+                    <Link href={n.route}>
+                        <a className={"btn btn-block h-full text-2xl text-neutral " + (n.bg ?? "btn-primary")}>
+                            {n.label}
+                        </a>
+                    </Link>
+                </div>
+            ))}
         </div>
-    ));
-    return (
-        auth.user?.role === "patient" ?
-            <div className="grid p-8 gap-8 grid-cols-2 grid-rows-4 md:grid-cols-4 md:grid-rows-2 flex-grow">
-                {buttons}
-            </div> :
-            <StudyList/>
+    ) : (
+        <div className="grid p-8 gap-8 grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 flex-grow">
+            {COORDINATOR_LINKS.map((n) => (
+                <div key={n.label} className={n.className || ""}>
+                    <Link href={n.route}>
+                        <a className={"btn btn-block h-full text-2xl text-neutral " + (n.bg ?? "btn-primary")}>
+                            {n.label}
+                        </a>
+                    </Link>
+                </div>
+            ))}
+        </div>
     );
 };
 
