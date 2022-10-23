@@ -111,11 +111,7 @@ export const lists: Lists = {
         access: allowAll,
         fields: {
             name: text({ validation: { isRequired: true } }),
-            study: relationship({ ref: "Study.therapeutic" }),
-            therapeuticCaptures: relationship({
-                ref: "TherapeuticCapture.therapeutic",
-                many: true
-            })
+            study: relationship({ ref: "Study.therapeutic" })
         }
     }),
 
@@ -126,6 +122,10 @@ export const lists: Lists = {
             study: relationship({ ref: "Study.therapeuticAssignment" }),
             quantity: integer({ validation: { min: 0, isRequired: true } }),
             therapeuticAssignmentSteps: relationship({ ref: "TherapeuticAssignmentSteps.therapeuticAssignment", many: true }),
+            therapeuticCaptures: relationship({
+                ref: "TherapeuticCapture.therapeuticAssignment",
+                many: true
+            }),
             startDate: timestamp({ validation: { isRequired: true } }),
             endDate: timestamp({ validation: { isRequired: true } })
         }
@@ -145,7 +145,7 @@ export const lists: Lists = {
         fields: {
             user: relationship({ ref: "User.therapeuticCaptures" }),
             time: timestamp({ validation: { isRequired: true } }),
-            therapeutic: relationship({ ref: "Therapeutic.therapeuticCaptures" })
+            therapeuticAssignment: relationship({ ref: "TherapeuticAssignment.therapeuticCaptures" })
         }
     }),
 
