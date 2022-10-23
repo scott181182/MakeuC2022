@@ -1,0 +1,9 @@
+query GetCommonSymptoms {
+    symptoms { name }
+}
+
+mutation ReportSymptoms($data: SymptomReportCreateInput!) {
+    createSymptomReport(data: $data) {
+      id
+    }
+}

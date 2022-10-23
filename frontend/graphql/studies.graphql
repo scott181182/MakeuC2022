@@ -3,12 +3,10 @@ fragment CompleteStudy on Study {
     name
     description
     participantsCount
-    coordinators {
-        name
-    }
-    medicine {
-        name
-    }
+    startDate
+    endDate
+    coordinators { name }
+    therapeutics { name }
 }
 
 query GetStudy($id: ID!) {
@@ -20,10 +18,10 @@ query GetSymptomsForStudy($id: ID!, $start: DateTime!) {
     study(where: { id: $id }) {
         id
         participants {
-            symptomReports(where: { time: { gte: $start } }) {
+            symptomReports(where: { occurredOn: { gte: $start } }) {
                 symptom
                 notes
-                time
+                occurredOn
             }
         }
     }

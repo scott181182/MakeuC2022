@@ -1,8 +1,18 @@
 query GetDailyTherapeutics($today: DateTime!) {
-    medicineAssignments(where: {
-        startDate: { gte: $today },
-        endDate: { lte: $today },
+    therapeuticAssignments(where: {
+        startDate: { lte: $today },
+        endDate: { gte: $today },
     }) {
-        directions
+        therapeuticAssignmentSteps {
+            id
+            direction
+            index
+        }
+    }
+}
+
+mutation CheckDailyTherapeuticStep($today: DateTime!, $userId: ID!, $tasId: ID!) {
+    createTherapeuticCapture(data: { occurredOn: $today, user: { connect: { id: $userId } }, therapeuticAssignmentSteps: { connect: { id: $tasId } } }) {
+      id
     }
 }
