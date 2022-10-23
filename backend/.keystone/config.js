@@ -1,7 +1,9 @@
 "use strict";
+var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -15,6 +17,10 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // keystone.ts
@@ -161,12 +167,24 @@ var session = (0, import_session.statelessSessions)({
   secret: sessionSecret
 });
 
+// src/env.ts
+var import_dotenv = __toESM(require("dotenv"));
+import_dotenv.default.config();
+var POSTGRES_USERNAME = process.env.DB_USERNAME ?? "postgres";
+var POSTGRES_PASSWORD = process.env.DB_PASS ?? "password";
+var POSTGRES_HOSTNAME = process.env.DB_HOSTNAME ?? "localhost";
+var POSTGRES_PORT = process.env.DB_PORT ?? "5432";
+var DB_NAME = process.env.DB_NAME ?? "ivdb";
+var POSTGRES_CON_STRING = `postgres://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_HOSTNAME}:${POSTGRES_PORT}/${DB_NAME}`;
+
 // keystone.ts
 var keystone_default = withAuth(
   (0, import_core2.config)({
     db: {
-      provider: "sqlite",
-      url: "file:./keystone.db"
+      provider: "postgresql",
+      url: POSTGRES_CON_STRING,
+      enableLogging: true,
+      useMigrations: true
     },
     server: {
       port: 3001
