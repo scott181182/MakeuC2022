@@ -101,7 +101,7 @@ export const lists: Lists = {
         access: allowAll,
         fields: {
             user: relationship({ ref: "User.symptomReports" }),
-            time: timestamp({ validation: { isRequired: true } }),
+            occurredOn: timestamp({ validation: { isRequired: true } }),
             symptom: text({ validation: { isRequired: true } }),
             notes: text({ validation: { isRequired: true } })
         }
@@ -111,7 +111,7 @@ export const lists: Lists = {
         access: allowAll,
         fields: {
             name: text({ validation: { isRequired: true } }),
-            study: relationship({ ref: "Study.therapeutic" })
+            study: relationship({ ref: "Study.therapeutics" })
         }
     }),
 
@@ -141,8 +141,8 @@ export const lists: Lists = {
         access: allowAll,
         fields: {
             user: relationship({ ref: "User.therapeuticCaptures" }),
-            time: timestamp({ validation: { isRequired: true } }),
-            therapeuticAssignmentStep: relationship({ ref: "TherapeuticAssignmentStep.therapeuticCapture" })
+            occurredOn: timestamp({ validation: { isRequired: true } }),
+            therapeuticAssignmentStep: relationship({ ref: "TherapeuticAssignmentStep.therapeuticCapture", many: true })
         }
     }),
 
@@ -151,9 +151,10 @@ export const lists: Lists = {
         fields: {
             name: text({ validation: { isRequired: true } }),
             description: text({ validation: { isRequired: true } }),
-            therapeutic: relationship({ ref: "Therapeutic.study", many: true }),
-            therapeuticAssignment: relationship({
-                ref: "TherapeuticAssignment.study"
+            therapeutics: relationship({ ref: "Therapeutic.study", many: true }),
+            therapeuticAssignments: relationship({
+                ref: "TherapeuticAssignment.study",
+                many: true
             }),
             participants: relationship({
                 ref: "User.participatedStudies",
