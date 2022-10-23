@@ -154,7 +154,7 @@ export const lists: Lists = {
         fields: {
             name: text({ validation: { isRequired: true } }),
             description: text({ validation: { isRequired: true } }),
-            therapeutic: relationship({ ref: "Therapeutic.study" }),
+            therapeutic: relationship({ ref: "Therapeutic.study", many: true }),
             therapeuticAssignment: relationship({
                 ref: "TherapeuticAssignment.study"
             }),
